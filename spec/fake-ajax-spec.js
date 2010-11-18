@@ -8,7 +8,7 @@ describe("showing questions", function() {
 
   describe("succeeds", function() {
     beforeEach(function() {
-      createContext({ajax: {urls: {"/questions/list": {successData: loadTestData(".questions", "fake-ajax-fixture.html")}}}});
+      fakeAjax({urls: {"/questions/list": {successData: loadTestData(".questions", "fake-ajax-fixture.html")}}});
       $(".showQuestions").click();
     });
 
@@ -20,7 +20,7 @@ describe("showing questions", function() {
 
   describe("fails", function() {
     beforeEach(function() {
-      createContext({ajax: {urls: {"/questions/list": {errorMessage: "Failed loading questions."}}}});
+      fakeAjax({urls: {"/questions/list": {errorMessage: "Failed loading questions."}}});
       $(".showQuestions").click();
     });
 
@@ -35,7 +35,7 @@ describe("showing questions", function() {
 describe(".countResponseLength", function() {
   describe("succeeds", function() {
     beforeEach(function() {
-      createContext({ajax: {urls: {"/succeeds": {successData: "Jasmine FTW!"}}}});
+      fakeAjax({urls: {"/succeeds": {successData: "Jasmine FTW!"}}});
     });
 
     it("counts response length", function() {
@@ -45,7 +45,7 @@ describe(".countResponseLength", function() {
 
   describe("fails", function() {
     beforeEach(function() {
-      createContext({ajax: {urls: {"/fails": {errorMessage: "argh"}}}});
+      fakeAjax({urls: {"/fails": {errorMessage: "argh"}}});
     });
 
     it("yields given default value", function() {
@@ -70,13 +70,11 @@ describe("clicking question", function() {
     beforeEach(function() {
       setFixtures('<ul class="questions"><li id="question1">q1</li><li id="question2">q2</li></ul><div class="answerContainer"></div>');
       setupAnswersBehavior();
-      createContext({
-        ajax: {
-          urls: {
-            "/answers/get?questionId=question2": {successData: loadTestData(".answer2", "fake-ajax-fixture.html")},
-            "/authors/get?answerId=answer2": {errorMessage: "author data not available"},
-            "/onError": {successData: "Please try again later."}
-          }
+      fakeAjax({
+        urls: {
+          "/answers/get?questionId=question2": {successData: loadTestData(".answer2", "fake-ajax-fixture.html")},
+          "/authors/get?answerId=answer2": {errorMessage: "author data not available"},
+          "/onError": {successData: "Please try again later."}
         }
       });
       $(".questions li").last().click();
