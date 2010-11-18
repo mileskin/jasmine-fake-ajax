@@ -102,3 +102,9 @@ describe(".latestAjaxUrlMatching", function() {
     expect(latestAjaxUrlMatching("fir")).toContain("p1=v1");
   });
 });
+
+describe("after each spec", function() {
+  it("context is cleared", function() {
+    expect(jasmine.FakeAjax.urls).toBeFalsy();
+  });
+});
