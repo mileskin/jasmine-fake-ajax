@@ -1,9 +1,9 @@
 Fake Ajax to be used with Jasmine BDD framework.
 ================================================
 
-See `spec/fake-ajax-spec.js` for live specification.
-
 Usage in a nutshell: you provide a context which is a list of mappings from an URL to succes data or error message. When the spec is run, fake ajax is called and the data you have supplied will be passed to the real system under test.
+
+See `spec/fake-ajax-spec.js` for live specification. All examples here are copied from the spec.
 
 You may inline the test data
 
@@ -17,6 +17,10 @@ and when you need the error handler to be called you can
 
     fakeAjax({urls: {"/fails": {errorMessage: "argh"}}});
 
+Fake response data in JSON format (simply a js map):
+
+    fakeAjax({urls: {"/user": {successData: {name: "John", age: 30}}}});
+
 Often, multiple Ajax calls are executed under the hood when e.g. clicking a link. `fakeAjax` lets you define which calls will succeed and which will fail:
 
     fakeAjax({
@@ -27,7 +31,7 @@ Often, multiple Ajax calls are executed under the hood when e.g. clicking a link
       }
     });
 
-You are not forced to define any context. Possibly you are only interested in what is sent to the server? Then you can
+You are not forced to define any context. Maybe you are only interested in what is sent to the server? Then you can
 
     expect(latestAjaxUrlMatching("second")).toContain("foo=bar");
 
