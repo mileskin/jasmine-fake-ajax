@@ -54,3 +54,12 @@ function setupMultipleAjaxCalls() {
   $.get("/second?foo=bar", function(data){});
   $.get("/third", function(data){});
 }
+
+function setupUserBehavior() {
+  $('.showUser').click(function() {
+    $.getJSON("/user", function(user) {
+      $('.user .name').text(user.name);
+      $('.user .age').text(user.age);
+    });
+  });
+}

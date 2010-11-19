@@ -103,6 +103,25 @@ describe(".latestAjaxUrlMatching", function() {
   });
 });
 
+// When response is expected to be in JSON format ($.getJSON is called in SUT).
+
+describe("showing user info", function() {
+  beforeEach(function() {
+    setFixtures('<button class="showUser"/><div class="user"><div class="name"></div><div class="age"></div></div>');
+    setupUserBehavior();
+    fakeAjax({urls: {"/user": {successData: {name: "John", age: 30}}}});
+    $('.showUser').click();
+  });
+
+  it("shows name", function() {
+    expect($('.user .name')).toHaveText('John');
+  });
+
+  it("shows age", function() {
+    expect($('.user .age')).toHaveText('30');
+  });
+});
+
 describe("after each spec", function() {
   it("context is cleared", function() {
     expect(jasmine.FakeAjax.urls).toBeFalsy();
