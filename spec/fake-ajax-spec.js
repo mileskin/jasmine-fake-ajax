@@ -127,3 +127,20 @@ describe("after each spec", function() {
     expect(jasmine.FakeAjax.urls).toBeFalsy();
   });
 });
+
+describe("logging", function() {
+  var latestWarning;
+  jasmine.FakeAjax.log.warn = function(message) {
+    latestWarning = message;
+  };
+
+  describe("without url mappings", function() {
+    beforeEach(function() {
+      $.get('/example');
+    });
+
+    it("logs warning", function() {
+      expect(latestWarning).toEqual('There are no ajax url mappings defined.');
+    });
+  });
+});
