@@ -1,14 +1,4 @@
-var sut = {};
-
-(function($, systemUnderTest) {
-  $.extend(systemUnderTest, {
-    setupQuestionsBehavior: setupQuestionsBehavior,
-    setupAnswersBehavior: setupAnswersBehavior,
-    countResponseLength: countResponseLength,
-    setupMultipleAjaxCalls: setupMultipleAjaxCalls,
-    setupUserBehavior: setupUserBehavior
-  });
-
+var sut = (function($) {
   function setupQuestionsBehavior() {
     $(".showQuestions").live("click", function() {
       $.ajax({
@@ -74,4 +64,12 @@ var sut = {};
       });
     });
   }
-})(jQuery, sut);
+
+  return {
+    setupQuestionsBehavior: setupQuestionsBehavior,
+    setupAnswersBehavior: setupAnswersBehavior,
+    countResponseLength: countResponseLength,
+    setupMultipleAjaxCalls: setupMultipleAjaxCalls,
+    setupUserBehavior: setupUserBehavior
+  };
+})(jQuery);
