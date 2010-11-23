@@ -147,4 +147,15 @@ describe("logging", function() {
       expect(latestWarning).toEqual('There are no ajax url mappings defined.');
     });
   });
+
+  describe("without matching url", function() {
+    beforeEach(function() {
+      fakeAjax({urls: {"/this": {successData: "any"}}});
+      $.get('/that');
+    });
+
+    it("logs warning", function() {
+      expect(latestWarning).toEqual("Applying default success data for url '/that'.");
+    });
+  });
 });
