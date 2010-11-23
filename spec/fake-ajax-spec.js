@@ -140,6 +140,7 @@ describe("logging", function() {
 
   beforeEach(function() {
     latestWarning = null;
+    latestError = null;
   });
 
   describe("without url mappings", function() {
@@ -171,6 +172,17 @@ describe("logging", function() {
 
     it("logs error", function() {
       expect(latestError).toEqual("Ajax success handler is not defined in system under test for url '/example'. See firebug script stack for more info.");
+    });
+  });
+
+  describe("with unknown url mapping value", function() {
+    beforeEach(function() {
+      fakeAjax({urls: {"/example": {}}});
+      $.get('/example');
+    });
+
+    it("logs error", function() {
+      expect(latestError).toEqual("Unknown mapping value for url '/example'. Expected either successData or errorMessage.");
     });
   });
 });
