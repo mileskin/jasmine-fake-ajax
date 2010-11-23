@@ -130,8 +130,12 @@ describe("after each spec", function() {
 
 describe("logging", function() {
   var latestWarning;
+  var latestError;
   jasmine.FakeAjax.log.warn = function(message) {
     latestWarning = message;
+  };
+  jasmine.FakeAjax.log.error = function(message) {
+    latestError = message;
   };
 
   beforeEach(function() {
@@ -156,6 +160,17 @@ describe("logging", function() {
 
     it("logs warning", function() {
       expect(latestWarning).toEqual("Applying default success data for url '/that'.");
+    });
+  });
+
+  describe("without success handler in system under test", function() {
+    beforeEach(function() {
+      fakeAjax({urls: {}});
+      $.get('/example');
+    });
+
+    it("logs error", function() {
+      expect(latestError).toEqual("Ajax success handler is not defined in system under test for url '/example'. See firebug script stack for more info.");
     });
   });
 });
