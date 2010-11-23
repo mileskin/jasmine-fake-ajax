@@ -134,6 +134,10 @@ describe("logging", function() {
     latestWarning = message;
   };
 
+  beforeEach(function() {
+    latestWarning = null;
+  });
+
   describe("without url mappings", function() {
     beforeEach(function() {
       $.get('/example');
