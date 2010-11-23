@@ -1,5 +1,5 @@
-Fake Ajax to be used with Jasmine BDD framework.
-================================================
+Fake Ajax to be used with the Jasmine BDD framework.
+====================================================
 
 Usage in a nutshell: you provide a context which is a list of mappings from an URL to succes data or error message. When the spec is run, fake ajax is called and the data you have supplied will be passed to the real system under test.
 
@@ -9,7 +9,7 @@ You may inline the test data
 
     fakeAjax({urls: {"/succeeds": {successData: "Jasmine FTW!"}}});
 
-or load the test data using `loadTestData`. Here we load the contents of .questions from fake-ajax-fixture.html
+or load the test data using `loadTestData`. Here we load the contents of `.questions` from `fake-ajax-fixture.html`:
 
     fakeAjax({urls: {"/questions/list": {successData: loadTestData(".questions", "fake-ajax-fixture.html")}}});
 
@@ -31,7 +31,7 @@ Often, multiple Ajax calls are executed under the hood when e.g. clicking a link
       }
     });
 
-You are not forced to define any context. Maybe you are only interested in what is sent to the server? Then you can
+You are not forced to define any context. Maybe you are only interested in what is sent to the server? Then you can use `latestAjaxUrl` or `latestAjaxUrlMatching`:
 
     expect(latestAjaxUrlMatching("second")).toContain("foo=bar");
 
