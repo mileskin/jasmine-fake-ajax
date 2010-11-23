@@ -3,7 +3,7 @@
 describe("showing questions", function() {
   beforeEach(function() {
     setFixtures('<button class="showQuestions"/><div class="questions"></div>');
-    setupQuestionsBehavior();
+    sut.setupQuestionsBehavior();
   });
 
   describe("succeeds", function() {
@@ -39,7 +39,7 @@ describe(".countResponseLength", function() {
     });
 
     it("counts response length", function() {
-      expect(countResponseLength({url: "/succeeds"})).toEqual(12);
+      expect(sut.countResponseLength({url: "/succeeds"})).toEqual(12);
     });
   });
 
@@ -49,7 +49,7 @@ describe(".countResponseLength", function() {
     });
 
     it("yields given default value", function() {
-      expect(countResponseLength({url: "/fails", defaultOnError: 666})).toEqual(666);
+      expect(sut.countResponseLength({url: "/fails", defaultOnError: 666})).toEqual(666);
     });
 
     it("executes given error handler", function() {
@@ -57,7 +57,7 @@ describe(".countResponseLength", function() {
       function errorHandler(xhr) {
         errorMessage = xhr.responseText;
       }
-      countResponseLength({url: "/fails", errorHandler: errorHandler})
+      sut.countResponseLength({url: "/fails", errorHandler: errorHandler})
       expect(errorMessage).toEqual("argh");
     });
   });
@@ -69,7 +69,7 @@ describe("clicking question", function() {
   describe("author is not available", function() {
     beforeEach(function() {
       setFixtures('<ul class="questions"><li id="question1">q1</li><li id="question2">q2</li></ul><div class="answerContainer"></div>');
-      setupAnswersBehavior();
+      sut.setupAnswersBehavior();
       fakeAjax({
         urls: {
           "/answers/get?questionId=question2": {successData: loadTestData(".answer2", "fake-ajax-fixture.html")},
@@ -94,7 +94,7 @@ describe("clicking question", function() {
 
 describe(".latestAjaxUrlMatching", function() {
   beforeEach(function() {
-    setupMultipleAjaxCalls();
+    sut.setupMultipleAjaxCalls();
   });
 
   it("sends expected params", function() {
@@ -108,7 +108,7 @@ describe(".latestAjaxUrlMatching", function() {
 describe("showing user info", function() {
   beforeEach(function() {
     setFixtures('<button class="showUser"/><div class="user"><div class="name"></div><div class="age"></div></div>');
-    setupUserBehavior();
+    sut.setupUserBehavior();
     fakeAjax({urls: {"/user": {successData: {name: "John", age: 30}}}});
     $('.showUser').click();
   });
