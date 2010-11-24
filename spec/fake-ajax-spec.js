@@ -90,16 +90,15 @@ describe("clicking question", function() {
   });
 });
 
-// When we only need to check the request URL.
-
-describe(".latestAjaxUrlMatching", function() {
+describe("when checking what is sent to the server", function() {
   beforeEach(function() {
     sut.setupMultipleAjaxCalls();
   });
 
-  it("sends expected params", function() {
-    expect(latestAjaxUrlMatching("second")).toContain("foo=bar");
-    expect(latestAjaxUrlMatching("fir")).toContain("p1=v1");
+  it("sends expected data", function() {
+    expect(latestAjaxWithUrlMatching('first').data).toEqual({'param1': 'value1', 'param2': 'value2'});
+    expect(latestAjaxWithUrlMatching('second').url).toContain('foo=bar');
+    expect(latestAjax().url).toEqual('/third');
   });
 });
 

@@ -51,7 +51,13 @@ var sut = (function($) {
   }
 
   function setupMultipleAjaxCalls() {
-    $.get("/first?p1=v1", function(data){});
+    $.ajax({
+      url: "/first",
+      data: {
+        "param1": "value1",
+        "param2": "value2"
+      }
+    });
     $.get("/second?foo=bar", function(data){});
     $.get("/third", function(data){});
   }

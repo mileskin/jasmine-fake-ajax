@@ -31,10 +31,12 @@ Often, multiple Ajax calls are executed under the hood when e.g. clicking a link
       }
     });
 
-You are not forced to define any context. Maybe you are only interested in what is sent to the server? Then you can use `latestAjaxUrl` or `latestAjaxUrlMatching`:
+You are not forced to define any context. Maybe you are only interested in what is sent to the server? Then you can use `latestAjax` or `latestAjaxWithUrlMatching` to get a handle to desired ajax options recorded during the test run:
 
-    expect(latestAjaxUrlMatching("second")).toContain("foo=bar");
+    expect(latestAjaxWithUrlMatching('first').data).toEqual({'param1': 'value1', 'param2': 'value2'});
+    expect(latestAjaxWithUrlMatching('second').url).toContain('foo=bar');
+    expect(latestAjax().url).toEqual('/third');
 
-Warnings and errors during the spec run are logged into the firebug console, so you should consider keeping it open.
+Warnings and errors during the test run are logged into the firebug console, so you should consider keeping it open.
 
 Hope you enjoy!
