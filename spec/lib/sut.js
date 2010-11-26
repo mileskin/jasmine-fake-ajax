@@ -58,7 +58,7 @@ var sut = (function($) {
         "param2": "value2"
       }
     });
-    $.get("/second?foo=bar", function(data){});
+    $.get("/second?param=" + $.URLEncode(' <foo> "bar+&?#'));
     $.get("/third", function(data){});
   }
 

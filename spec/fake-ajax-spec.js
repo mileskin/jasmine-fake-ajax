@@ -97,8 +97,11 @@ describe("when checking what is sent to the server", function() {
 
   it("sends expected data", function() {
     expect(latestAjaxWithUrlMatching('first').data).toEqual({'param1': 'value1', 'param2': 'value2'});
-    expect(latestAjaxWithUrlMatching('second').url).toContain('foo=bar');
     expect(latestAjax().url).toEqual('/third');
+  });
+
+  it("decodes url to enhance readability of values", function() {
+    expect(latestAjaxWithUrlMatching('second').url).toContain('+<foo>+"bar+&?#');
   });
 });
 
