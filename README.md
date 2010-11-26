@@ -1,4 +1,4 @@
-Fake Ajax to be used with the Jasmine BDD framework.
+Fake Ajax to be used with the [Jasmine BDD framework](http://pivotal.github.com/jasmine/).
 ====================================================
 
 Usage in a nutshell: you provide a context which is a list of mappings from an URL to succes data or error message. When the spec is run, fake ajax is called and the data you have supplied will be passed to the real system under test.
