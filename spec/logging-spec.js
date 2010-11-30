@@ -19,7 +19,7 @@ describe("logging", function() {
     });
 
     it("logs warning", function() {
-      expect(latestWarning).toEqual('There are no ajax url mappings defined.');
+      expect(latestWarning).toEqual("There are no ajax url mappings defined. Actual ajax url was '/example'.");
     });
   });
 
