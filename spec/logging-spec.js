@@ -76,7 +76,7 @@ describe("logging", function() {
     });
 
     it("logs error", function() {
-      expect(errors).toContain("Failed loading test data by selector: '.unknown' from url: 'example-fixture.html'. Whole fixture: <html><body><div class=\"fixture\"></div></body></html>");
+      expect(errors).toContain("Failed loading test data by selector '.unknown' from url 'example-fixture.html'. Whole fixture: <html><body><div class=\"fixture\"></div></body></html>");
     });
   });
 });
