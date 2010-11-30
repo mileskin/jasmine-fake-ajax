@@ -83,11 +83,21 @@ describe("logging", function() {
     });
   });
 
-  describe('when matching url is not found', function() {
+  describe('when latest url is not found', function() {
     beforeEach(function() {
-      $.get('/example');
     });
 
+    it('returns empty map', function() {
+      expect(latestAjax()).toEqual({});
+    });
+
+    it('logs error with spec description', function() {
+      latestAjax();
+      expect(testLog.latestError()).toEqual("Ajax hasn't yet been called in spec 'logs error with spec description'.");
+    });
+  });
+
+  describe('when matching url is not found', function() {
     it('returns empty map', function() {
       expect(latestAjaxWithUrlMatching('/notfound')).toEqual({});
     });
