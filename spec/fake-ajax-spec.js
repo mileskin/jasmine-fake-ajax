@@ -129,3 +129,37 @@ describe("after each spec", function() {
     expect(jasmine.FakeAjax.urls).toBeFalsy();
   });
 });
+
+describe('supported callbacks', function() {
+  var beforeSendWasCalled = false;
+  var successWasCalled = false;
+  var completeWasCalled = false;
+
+  beforeEach(function() {
+    fakeAjax({urls: {'/example': {successData: 'yay'}}});
+    $.ajax({
+      url: '/example',
+      beforeSend: function() {
+        beforeSendWasCalled = true;
+      },
+      success: function() {
+        successWasCalled = true;
+      },
+      complete: function() {
+        completeWasCalled = true;
+      }
+    });
+  });
+
+  it('.beforeSend', function() {
+    expect(beforeSendWasCalled).toBeTruthy();
+  });
+
+  it('.success', function() {
+    expect(successWasCalled).toBeTruthy();
+  });
+
+  it('.complete', function() {
+    expect(completeWasCalled).toBeTruthy();
+  });
+});
