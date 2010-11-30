@@ -34,8 +34,8 @@ describe("logging", function() {
       $.get('/that');
     });
 
-    it("logs warning", function() {
-      expect(testLog.latestWarning()).toEqual("Applying default success data for url '/that'.");
+    it("logs warning with actual url and spec description", function() {
+      expect(testLog.latestWarning()).toEqual("Applying default success data for url '/that' in spec 'logs warning with actual url and spec description'.");
     });
   });
 
