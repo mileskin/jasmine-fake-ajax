@@ -52,12 +52,12 @@ describe("logging", function() {
 
   describe("with unknown url mapping value", function() {
     beforeEach(function() {
-      fakeAjax({urls: {"/example": {}}});
+      fakeAjax({urls: {"/example": 'invalid'}});
       $.get('/example');
     });
 
     it("logs error", function() {
-      expect(testLog.latestError()).toEqual("Unknown mapping value for url '/example'. Expected either successData or errorMessage.");
+      expect(testLog.latestError()).toEqual("Unknown mapping value for url '/example'. Expected either successData or errorMessage. Actual is 'invalid'");
     });
   });
 
