@@ -82,4 +82,19 @@ describe("logging", function() {
       expect(testLog.errors).toContain("Failed loading test data by selector '.unknown' from url 'example-fixture.html'. Whole fixture: <html><body><div class=\"fixture\"></div></body></html>");
     });
   });
+
+  describe('when matching url is not found', function() {
+    beforeEach(function() {
+      $.get('/example');
+    });
+
+    it('returns empty map', function() {
+      expect(latestAjaxWithUrlMatching('/notfound')).toEqual({});
+    });
+
+    it('logs error with partial url and spec description', function() {
+      latestAjaxWithUrlMatching('/notfound');
+      expect(testLog.latestError()).toEqual("Matching url was not found by partial url '/notfound' in spec 'logs error with partial url and spec description'.");
+    });
+  });
 });
