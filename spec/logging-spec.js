@@ -1,18 +1,21 @@
-describe("logging", function() {
-  var warnings;
-  var errors;
-  function latestWarning() { return warnings[warnings.length - 1]; }
-  function latestError() { return errors[errors.length - 1]; }
+var testLog;
+
+function TestLog() {
+  this.warnings = [];
+  this.errors = [];
+  this.latestWarning = function() { return this.warnings[this.warnings.length - 1]; };
+  this.latestError = function() { return this.errors[this.errors.length - 1]; };
   jasmine.FakeAjax.log.warn = function(message) {
-    warnings.push(message);
+    testLog.warnings.push(message);
   };
   jasmine.FakeAjax.log.error = function(message) {
-    errors.push(message);
+    testLog.errors.push(message);
   };
+}
 
+describe("logging", function() {
   beforeEach(function() {
-    warnings = [];
-    errors = [];
+    testLog = new TestLog();
   });
 
   describe("without url mappings", function() {
@@ -21,7 +24,7 @@ describe("logging", function() {
     });
 
     it("logs warning", function() {
-      expect(latestWarning()).toEqual("There are no ajax url mappings defined. Actual ajax url was '/example'.");
+      expect(testLog.latestWarning()).toEqual("There are no ajax url mappings defined. Actual ajax url was '/example'.");
     });
   });
 
@@ -32,7 +35,7 @@ describe("logging", function() {
     });
 
     it("logs warning", function() {
-      expect(latestWarning()).toEqual("Applying default success data for url '/that'.");
+      expect(testLog.latestWarning()).toEqual("Applying default success data for url '/that'.");
     });
   });
 
@@ -43,7 +46,7 @@ describe("logging", function() {
     });
 
     it("logs error", function() {
-      expect(latestError()).toEqual("Ajax success handler is not defined in system under test for url '/example'. See firebug script stack for more info.");
+      expect(testLog.latestError()).toEqual("Ajax success handler is not defined in system under test for url '/example'. See firebug script stack for more info.");
     });
   });
 
@@ -54,7 +57,7 @@ describe("logging", function() {
     });
 
     it("logs error", function() {
-      expect(latestError()).toEqual("Unknown mapping value for url '/example'. Expected either successData or errorMessage.");
+      expect(testLog.latestError()).toEqual("Unknown mapping value for url '/example'. Expected either successData or errorMessage.");
     });
   });
 
@@ -65,7 +68,7 @@ describe("logging", function() {
     });
 
     it("logs error", function() {
-      expect(errors).toContain("Failed loading test data by url 'unknown-fixture.html'.");
+      expect(testLog.errors).toContain("Failed loading test data by url 'unknown-fixture.html'.");
     });
   });
 
@@ -76,7 +79,7 @@ describe("logging", function() {
     });
 
     it("logs error", function() {
-      expect(errors).toContain("Failed loading test data by selector '.unknown' from url 'example-fixture.html'. Whole fixture: <html><body><div class=\"fixture\"></div></body></html>");
+      expect(testLog.errors).toContain("Failed loading test data by selector '.unknown' from url 'example-fixture.html'. Whole fixture: <html><body><div class=\"fixture\"></div></body></html>");
     });
   });
 });
