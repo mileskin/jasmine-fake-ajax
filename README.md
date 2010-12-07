@@ -3,7 +3,20 @@ Fake Ajax to be used with the [Jasmine BDD framework](http://pivotal.github.com/
 
 Usage in a nutshell: you provide a context which is a list of mappings from an URL to succes data or error message. When the spec is run, fake ajax is called and the data you have supplied will be passed to the real system under test.
 
-See `spec/fake-ajax-spec.js` for live specification. All examples here are copied from the spec.
+See `spec/fake-ajax-spec.js` for live specification.
+
+Simplified:
+
+    describe('simple example', function() {
+      it('just works', function() {
+        fakeAjax({urls: {'/simple': {successData: 'y'}}});
+        var result = 'x';
+        $.get('/simple', function(data) {
+          result = data;
+        });
+        expect(result).toEqual('y');
+      });
+    });
 
 You may inline the test data
 

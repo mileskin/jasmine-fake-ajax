@@ -1,3 +1,14 @@
+describe('simple example', function() {
+  it('just works', function() {
+    fakeAjax({urls: {'/simple': {successData: 'y'}}});
+    var result = 'x';
+    $.get('/simple', function(data) {
+      result = data;
+    });
+    expect(result).toEqual('y');
+  });
+});
+
 // Fake AJAX with DOM, single AJAX call. Response test data is loaded using .loadTestData.
 
 describe("showing questions", function() {
