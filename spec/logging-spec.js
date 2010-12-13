@@ -1,19 +1,19 @@
-var testLog;
-
-function TestLog() {
-  this.warnings = [];
-  this.errors = [];
-  this.latestWarning = function() { return this.warnings[this.warnings.length - 1]; };
-  this.latestError = function() { return this.errors[this.errors.length - 1]; };
-  jasmine.FakeAjax.log.warn = function(message) {
-    testLog.warnings.push(message);
-  };
-  jasmine.FakeAjax.log.error = function(message) {
-    testLog.errors.push(message);
-  };
-}
-
 describe("logging", function() {
+  var testLog;
+
+  function TestLog() {
+    this.warnings = [];
+    this.errors = [];
+    this.latestWarning = function() { return this.warnings[this.warnings.length - 1]; };
+    this.latestError = function() { return this.errors[this.errors.length - 1]; };
+    jasmine.FakeAjax.log.warn = function(message) {
+      testLog.warnings.push(message);
+    };
+    jasmine.FakeAjax.log.error = function(message) {
+      testLog.errors.push(message);
+    };
+  }
+
   var customMatchers = {
     toLogAndThrow: function(expectedMessage) {
       var result = false;
