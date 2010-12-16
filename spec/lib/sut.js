@@ -1,30 +1,30 @@
 var sut = (function($) {
   function setupQuestionsBehavior() {
-    $(".showQuestions").live("click", function() {
+    $('.showQuestions').live('click', function() {
       $.ajax({
-        url: "/questions/list",
+        url: '/questions/list',
         success: function(questions) {
-          $(".questions").html(questions)
+          $('.questions').html(questions)
         },
         error: function(xhr) {
-          $(".questions").text(xhr.responseText)
+          $('.questions').text(xhr.responseText)
         }
       })
     })
   }
 
   function setupAnswersBehavior() {
-    $(".questions li").live("click", function() {
+    $('.questions li').live('click', function() {
       var question = $(this)
       $.ajax({
-        url: "/answers/get?questionId=" + question.attr("id"),
+        url: '/answers/get?questionId=' + question.attr('id'),
         success: function(answer) {
-          $(".answerContainer").html(answer)
+          $('.answerContainer').html(answer)
           $.ajax({
-            url: "/authors/get?answerId=" + $(answer).attr("id"),
+            url: '/authors/get?answerId=' + $(answer).attr('id'),
             error: function(xhr) {
-              $.get("/onError", function(message) {
-                $(".answerContainer .author").text(message)
+              $.get('/onError', function(message) {
+                $('.answerContainer .author').text(message)
               })
             }
           })
@@ -52,19 +52,19 @@ var sut = (function($) {
 
   function setupMultipleAjaxCalls() {
     $.ajax({
-      url: "/first",
+      url: '/first',
       data: {
-        "param1": "value1",
-        "param2": "value2"
+        'param1': 'value1',
+        'param2': 'value2'
       }
     })
-    $.get("/second?param=" + $.URLEncode(' <foo> "bar+&?#'))
-    $.get("/third", function(data){})
+    $.get('/second?param=' + $.URLEncode(' <foo> "bar+&?#'))
+    $.get('/third', function(data){})
   }
 
   function setupUserBehavior() {
     $('.showUser').click(function() {
-      $.getJSON("/user", function(user) {
+      $.getJSON('/user', function(user) {
         $('.user .name').text(user.name)
         $('.user .age').text(user.age)
       })
