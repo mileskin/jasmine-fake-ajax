@@ -20,27 +20,27 @@ Simplified:
 
 You may inline the test data
 
-    fakeAjax({urls: {"/succeeds": {successData: "Jasmine FTW!"}}})
+    fakeAjax({urls: {'/succeeds': {successData: 'Jasmine FTW!'}}})
 
 or load the test data using `loadTestData`. Here we load the contents of `.questions` from `fake-ajax-fixture.html`:
 
-    fakeAjax({urls: {"/questions/list": {successData: loadTestData(".questions", "fake-ajax-fixture.html")}}})
+    fakeAjax({urls: {'/questions/list': {successData: loadTestData('.questions', 'fake-ajax-fixture.html')}}})
 
 and when you need the error handler to be called you can
 
-    fakeAjax({urls: {"/fails": {errorMessage: "argh"}}})
+    fakeAjax({urls: {'/fails': {errorMessage: 'argh'}}})
 
 Fake response data in JSON format (simply a js map):
 
-    fakeAjax({urls: {"/user": {successData: {name: "John", age: 30}}}})
+    fakeAjax({urls: {'/user': {successData: {name: 'John', age: 30}}}})
 
 Often, multiple Ajax calls are executed under the hood when e.g. clicking a link. `fakeAjax` lets you define which calls will succeed and which will fail:
 
     fakeAjax({
       urls: {
-        "/answers/get?questionId=question2": {successData: loadTestData(".answer2", "fake-ajax-fixture.html")},
-        "/authors/get?answerId=answer2": {errorMessage: "author data not available"},
-        "/onError": {successData: "Please try again later."}
+        '/answers/get?questionId=question2': {successData: loadTestData('.answer2', 'fake-ajax-fixture.html')},
+        '/authors/get?answerId=answer2': {errorMessage: 'author data not available'},
+        '/onError': {successData: 'Please try again later.'}
       }
     })
 
