@@ -174,3 +174,57 @@ describe('supported callbacks', function() {
     expect(completeWasCalled).toBeTruthy()
   })
 })
+
+describe('context option', function() {
+  var Context
+
+  beforeEach(function() {
+    Context = {
+      onSuccess: function(data) {},
+      onError: function(xhr) {},
+      onComplete: function() {}
+    }
+    spyOn(Context, 'onSuccess')
+    spyOn(Context, 'onError')
+    spyOn(Context, 'onComplete')
+    fakeAjax({urls: {
+      '/test/context/success': {successData: 'success data'},
+      '/test/context/error': {errorMessage: 'error message'},
+      '/test/context/complete': {successData: 'any'}
+    }})
+  })
+
+  function callAjaxWithContext(url) {
+    $.ajax({
+      context: Context,
+      url: url,
+      success: function(data) {
+        expect(this).toBe(Context)
+        this.onSuccess(data)
+      },
+      error: function(xhr) {
+        expect(this).toBe(Context)
+        this.onError(xhr)
+      },
+      complete: function() {
+        expect(this).toBe(Context)
+        this.onComplete()
+      }
+    })
+  }
+
+  it('is supported for success callback', function() {
+    callAjaxWithContext('/test/context/success')
+    expect(Context.onSuccess).toHaveBeenCalledWith('success data')
+  })
+
+  it('is supported for error callback', function() {
+    callAjaxWithContext('/test/context/error')
+    expect(Context.onError).toHaveBeenCalledWith({responseText: 'error message'})
+  })
+
+  it('is supported for complete callback', function() {
+    callAjaxWithContext('/test/context/complete')
+    expect(Context.onComplete).toHaveBeenCalled()
+  })
+})
