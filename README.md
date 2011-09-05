@@ -1,5 +1,4 @@
-Fake Ajax to be used with the [Jasmine BDD framework](http://pivotal.github.com/jasmine/).
-====================================================
+# Fake Ajax to be used with the [Jasmine BDD framework](http://pivotal.github.com/jasmine/)
 
 Usage in a nutshell: you provide a context which is a list of mappings from an URL to succes data or error message. When the spec is run, fake ajax is called and the data you have supplied will be passed to the real system under test.
 
@@ -51,5 +50,9 @@ You are not forced to define any context. Maybe you are only interested in what 
     expect(latestAjax().url).toEqual('/third')
 
 Warnings and errors during the test run are logged into the firebug console, so you should consider keeping it open.
+
+## Installation instructions
+
+Put files in `dependencies/` and `lib/jasmine-fake-ajax.js` to your load path. You should be good to go. Probably works with other jQuery versions than in `dependencies/`. However, please report if there are problems.
 
 Hope you enjoy!
