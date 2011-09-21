@@ -27,7 +27,7 @@ describe('logging', function() {
         result = (this.env.equals_(exception, expectedMessage) && this.env.contains_(testLog.errors, expectedMessage))
       }
       this.message = function() {
-        return "Expected function to log and throw '" + expectedMessage + "'. Logged error messages are [" + testLog.errors + "]. Actual error message thrown  by the function was '" + exception + "'."
+        return "Expected function to log and throw '" + expectedMessage + "'. Logged error messages: [" + testLog.errors + "]. Actual error message thrown  by the function was '" + exception + "'."
       }
       return result
     }
@@ -38,42 +38,45 @@ describe('logging', function() {
     testLog = new TestLog()
   })
 
-  describe('without url mappings', function() {
-    beforeEach(function() {
-      $.get('/example')
-    })
-
+  describe('without fake ajax options', function() {
     it('logs warning', function() {
-      expect(testLog.latestWarning()).toEqual("There are no ajax url mappings defined. Actual ajax url was '/example'.")
+      $.get('/example')
+      expect(testLog.latestWarning()).toEqual("There are no fake ajax options defined. Real ajax url was '/example'.")
     })
   })
 
   describe('without matching url', function() {
-    beforeEach(function() {
-      fakeAjax({urls: {'/this': {successData: 'any'}}})
+    it('logs warning with real url and spec description', function() {
+      fakeAjax({mappings:[{url: '/this'}]})
       $.get('/that', function(){})
-    })
-
-    it('logs warning with actual url and spec description', function() {
-      expect(testLog.latestWarning()).toEqual("Applying default success data for url '/that' in spec 'logs warning with actual url and spec description'.")
+      expect(testLog.latestWarning()).toEqual("Applying default success data in spec 'logs warning with real url and spec description' because no matching fake ajax options was found. Real ajax url was '/that'.")
     })
   })
 
-  describe('without success handler in system under test', function() {
+  describe('without success handler in real options (though successData is defined in fake options)', function() {
     it('logs and throws error message', function() {
+      fakeAjax({mappings:[{url: 'a', successData: 1}]})
       expect(function() {
-        fakeAjax({urls: {}})
-        $.get('/example')
-      }).toLogAndThrow("Ajax success handler is not defined in system under test for url '/example'. See firebug script stack for more info.")
+        $.get('a')
+      }).toLogAndThrow("Ajax success handler is not defined in system under test for url 'a'.")
     })
   })
 
-  describe('with unknown url mapping value', function() {
+  describe('without error handler in real options (though errorMessage is defined in fake options)', function() {
     it('logs and throws error message', function() {
+      fakeAjax({mappings:[{url: 'a', errorMessage: 1}]})
       expect(function() {
-        fakeAjax({urls: {'/example': 'invalid'}})
-        $.get('/example')
-      }).toLogAndThrow("Unknown mapping value for url '/example'. Expected either successData or errorMessage. Actual was 'invalid'")
+        $.get('a')
+      }).toLogAndThrow("Ajax error handler is not defined in system under test for url 'a'.")
+    })
+  })
+
+  describe('when no successData or errorMessage is defined', function() {
+    it('logs and throws error message', function() {
+      fakeAjax({mappings:[{url: 'a'}]})
+      expect(function() {
+        $.get('a')
+      }).toLogAndThrow("Either successData or errorMessage must be defined for url 'a'.")
     })
   })
 
@@ -104,8 +107,9 @@ describe('logging', function() {
   describe('when matching url is not found', function() {
     it('logs and throws error message with partial url and spec description', function() {
       expect(function() {
-        latestAjaxWithUrlMatching('/notfound')
-      }).toLogAndThrow("Matching url was not found by partial url '/notfound' in spec 'logs and throws error message with partial url and spec description'.")
+        latestAjaxWithUrlMatching('/not-found')
+      }).toLogAndThrow("Matching url was not found by partial url '/not-found' in spec 'logs and throws error message with partial url and spec description'.")
     })
   })
 })
+
