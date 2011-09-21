@@ -1,47 +1,61 @@
-# Fake Ajax to be used with the [Jasmine BDD framework](http://pivotal.github.com/jasmine/)
+# Fake Ajax to be used with the [Jasmine BDD framework](http://pivotal.github.com/jasmine/) and jQuery Ajax
 
-Usage in a nutshell: you provide a context which is a list of mappings from an URL to succes data or error message. When the spec is run, fake ajax is called and the data you have supplied will be passed to the real system under test.
+Usage in a nutshell: you provide a context which is a list of fake Ajax options with success data or error message. When the spec is run, fake ajax is called and the data you have supplied will be passed to the real system under test. You may use a combination of multiple fields for matching fake vs. real options.
 
-See `spec/fake-ajax-spec.js` for live specification.
+See `spec/fake-ajax-spec.js` for executable specification and many examples.
 
 Simplified:
 
     describe('simple example', function() {
       it('just works', function() {
-        fakeAjax({urls: {'/simple': {successData: 'y'}}})
-        var result = 'x'
+        fakeAjax({mappings:[
+          {url: '/simple', successData: 'world!'}
+        ]})
+        var message = 'hello '
         $.get('/simple', function(data) {
-          result = data
+          message += data
         })
-        expect(result).toEqual('y')
+        expect(message).toEqual('hello world!')
       })
     })
 
+Support for RESTfull requests by defining HTTP method (type). Also data, dataType and async are used for matching fake vs. real Ajax options:
+
+    fakeAjax({mappings:[
+      {url: '/example', type: 'put'}, // no match
+      {url: '/example', type: 'post'} // match!
+    ]})
+    $.ajax({url: '/example', type: 'post', data: {user: 'dog'}, dataType: 'json'})
+
+    fakeAjax({mappings:[
+      {url: '/example', type: 'post', data: {user: 'dog'}}, // match!
+      {url: '/example', type: 'post', data: {user: 'cat'}}  // no match
+    ]})
+    $.ajax({url: '/example', type: 'post', data: {user: 'dog'}})
+
 You may inline the test data
 
-    fakeAjax({urls: {'/succeeds': {successData: 'Jasmine FTW!'}}})
+    fakeAjax({mappings:[{url: '/succeeds', successData: 'Jasmine FTW!'}]})
 
 or load the test data using `loadTestData`. Here we load the contents of `.questions` from `fake-ajax-fixture.html`:
 
-    fakeAjax({urls: {'/questions/list': {successData: loadTestData('.questions', 'fake-ajax-fixture.html')}}})
+    fakeAjax({mappings:[{url: '/questions/list', successData: loadTestData('.questions', 'fake-ajax-fixture.html')}]})
 
 and when you need the error handler to be called you can
 
-    fakeAjax({urls: {'/fails': {errorMessage: 'argh'}}})
+    fakeAjax({mappings:[{url: '/fails', errorMessage: 'argh'}]})
 
 Fake response data in JSON format (simply a js map):
 
-    fakeAjax({urls: {'/user': {successData: {name: 'John', age: 30}}}})
+    fakeAjax({mappings:[{url: '/user', successData: {name: 'John', age: 30}}]})
 
 Often, multiple Ajax calls are executed under the hood when e.g. clicking a link. `fakeAjax` lets you define which calls will succeed and which will fail:
 
-    fakeAjax({
-      urls: {
-        '/answers/get?questionId=question2': {successData: loadTestData('.answer2', 'fake-ajax-fixture.html')},
-        '/authors/get?answerId=answer2': {errorMessage: 'author data not available'},
-        '/onError': {successData: 'Please try again later.'}
-      }
-    })
+    fakeAjax({mappings:[
+      {url: '/answers/get?questionId=question2', successData: loadTestData('.answer2', 'fake-ajax-fixture.html')},
+      {url: '/authors/get?answerId=answer2', errorMessage: 'author data not available'},
+      {url: '/onError', successData: 'Please try again later.'}
+    ]})
 
 You are not forced to define any context. Maybe you are only interested in what is sent to the server? Then you can use `latestAjax` or `latestAjaxWithUrlMatching` to get a handle to desired ajax options recorded during the test run:
 
@@ -55,4 +69,5 @@ Warnings and errors during the test run are logged into the firebug console, so 
 
 Put files in `dependencies/` and `lib/jasmine-fake-ajax.js` to your load path. You should be good to go. Probably works with other jQuery versions than in `dependencies/`. However, please report if there are problems.
 
-Hope you enjoy!
+Hope you enjoy, don't forget to [follow me on twitter](http://twitter.com/mileskin)!
+
