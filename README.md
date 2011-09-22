@@ -69,5 +69,17 @@ Warnings and errors during the test run are logged into the firebug console, so 
 
 Put files in `dependencies/` and `lib/jasmine-fake-ajax.js` to your load path. You should be good to go. Probably works with other jQuery versions than in `dependencies/`. However, please report if there are problems.
 
+## TODO
+
+* don't use default success data at all, if matching fake options not found then warn and do nothing else
+* use underscore everywhere instead of functional jQuery (filter, map)
+* implement jasmine.FakeAjax.register({url: '/a'}) and use in init
+* extract informative warn/error logging with options, test name
+* update jquery
+* introduce proper xhr, not just message
+* rewrite with coffeescript
+
+---
+
 Hope you enjoy, don't forget to [follow me on twitter](http://twitter.com/mileskin)!
 
