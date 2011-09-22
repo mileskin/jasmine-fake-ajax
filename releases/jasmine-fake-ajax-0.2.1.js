@@ -8,6 +8,8 @@
     var fixture
     jasmine.FakeAjax.realAjax({
       url: url,
+      type: 'get',
+      dataType: 'html',
       async: false,
       success: function(data) {
         fixture = data
@@ -20,7 +22,7 @@
     if (testDataContainer.length > 0) {
       return testDataContainer.html()
     } else {
-      logAndThrow("Failed loading test data by selector '" + selector + "' from url '" + url + "'. Whole fixture: " + fixture)
+      logAndThrow("Failed loading test data by selector '" + selector + "' from url '" + url + "'.")
       return null // to get rid of IDE warning, this line is unreachable
     }
   }
@@ -36,7 +38,7 @@
   }
 
   function _latestAjaxWithUrlMatching(partialUrl) {
-    var matchingAjaxCalls = $(jasmine.FakeAjax.recordedSession.ajaxCalls).filter(function(index, ajaxOptions) {
+    var matchingAjaxCalls = _.filter(jasmine.FakeAjax.recordedSession.ajaxCalls, function(ajaxOptions) {
       return ajaxOptions.url.match(partialUrl)
     })
     if (matchingAjaxCalls.length === 0) {
@@ -109,11 +111,7 @@
         return _.isUndefined(fake[field]) ? true : _.isEqual(fake[field], real[field])
       })
     })
-    if (allMatchingFakeOptions.length === 0) {
-      jasmine.FakeAjax.log.warn("Applying default success data in spec '" + jasmine.getEnv().currentSpec.description +
-                                "' because no matching fake ajax options was found. Real ajax url was '" + realOptions.url + "'.")
-      allMatchingFakeOptions = [{successData: 'default success data'}]
-    } else if (allMatchingFakeOptions.length > 1) {
+    if (allMatchingFakeOptions.length > 1) {
       logAndThrow("Multiple matching fake ajax options found, not able to decide which callbacks to use because the result was ambiguous. " +
                   "Real ajax options: " + JSON.stringify(realOptions) + ". " +
                   "All matching (and thus conflicting) fake options: " + _.map(allMatchingFakeOptions, function(fakeOptions){ return JSON.stringify(fakeOptions) }))
@@ -147,14 +145,22 @@
     }
   }
 
+  function messageWithContextInfo(message, realOptions) {
+    return message + ", spec: '" + jasmine.getEnv().currentSpec.description + "', real ajax url: '" + realOptions.url + "'."
+  }
+
   $.ajax = function(realOptions) {
     jasmine.FakeAjax.recordedSession.addAjaxCall(realOptions)
     var allFakeOptions = jasmine.FakeAjax.allFakeOptions
     if (allFakeOptions) {
       var fakeOptions = findMatchingFakeOptions(realOptions, allFakeOptions)
-      callAvailableCallbackHandlers(realOptions, fakeOptions)
+      if (_.isEmpty(fakeOptions)) {
+        jasmine.FakeAjax.log.warn(messageWithContextInfo("No matching fake ajax options was found", realOptions))
+      } else {
+        callAvailableCallbackHandlers(realOptions, fakeOptions)
+      }
     } else {
-      jasmine.FakeAjax.log.warn("There are no fake ajax options defined. Real ajax url was '" + realOptions.url + "'.")
+      jasmine.FakeAjax.log.warn(messageWithContextInfo("There are no fake ajax options defined", realOptions))
     }
   }
 })(jQuery, jasmine)
