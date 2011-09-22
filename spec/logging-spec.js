@@ -40,7 +40,7 @@ describe('logging', function() {
   describe('without fake ajax options', function() {
     it('logs warning', function() {
       $.get('/example')
-      expect(testLog.latestWarning()).toEqual("There are no fake ajax options defined. Real ajax url was '/example'.")
+      expect(testLog.latestWarning()).toEqual("There are no fake ajax options defined, spec: 'logs warning', real ajax url: '/example'.")
     })
   })
 
