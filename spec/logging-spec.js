@@ -49,7 +49,7 @@ describe('logging', function() {
     it('logs warning with real url and spec description', function() {
       fakeAjax({mappings:[{url: '/this'}]})
       $.get('/that', function(){})
-      expect(testLog.latestWarning()).toEqual("Applying default success data in spec 'logs warning with real url and spec description' because no matching fake ajax options was found. Real ajax url was '/that'.")
+      expect(testLog.latestWarning()).toEqual("No matching fake ajax options was found, spec: 'logs warning with real url and spec description', real ajax url: '/that'.")
     })
   })
 

@@ -21,12 +21,6 @@ describe('rules for resolving which fake ajax options match the real options', f
     expect(result).toEqual('1')
   })
 
-  it('applies default success data when no matching fake options are found', function() {
-    fakeAjax({mappings:[{url: '/a', successData: '1'}]})
-    $.get('/non-existing', successHandler)
-    expect(result).toEqual('default success data')
-  })
-
   it('raises error when multiple matching fake options are found', function() {
     fakeAjax({mappings:[
       {url: '/x'},
