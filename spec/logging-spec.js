@@ -91,7 +91,7 @@ describe('logging', function() {
     it('logs and throws error message', function() {
       expect(function() {
         loadTestData('.unknown', 'example-fixture.html')
-      }).toLogAndThrow("Failed loading test data by selector '.unknown' from url 'example-fixture.html'. Whole fixture: <html><body><div class=\"fixture\"></div></body></html>")
+      }).toLogAndThrow("Failed loading test data by selector '.unknown' from url 'example-fixture.html'.")
     })
   })
 

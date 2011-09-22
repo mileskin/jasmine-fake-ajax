@@ -72,7 +72,6 @@ Put files in `dependencies/` and `lib/jasmine-fake-ajax.js` to your load path. Y
 ## TODO
 
 * implement jasmine.FakeAjax.register({url: '/a'}) and use in init
-* update jquery
 * introduce proper xhr, not just message
 * rewrite with coffeescript
 

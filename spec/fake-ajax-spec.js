@@ -26,7 +26,7 @@ describe('rules for resolving which fake ajax options match the real options', f
       {url: '/x'},
       {url: '/x', type: 'get'},
     ]})
-    expect(function(){ $.get('/x') }).toThrow('Multiple matching fake ajax options found, not able to decide which callbacks to use because the result was ambiguous. Real ajax options: {"type":"GET","url":"/x"}. All matching (and thus conflicting) fake options: {"url":"/x"},{"url":"/x","type":"get"}')
+    expect(function(){ $.get('/x') }).toThrow('Multiple matching fake ajax options found, not able to decide which callbacks to use because the result was ambiguous. Real ajax options: {"type":"get","url":"/x"}. All matching (and thus conflicting) fake options: {"url":"/x"},{"url":"/x","type":"get"}')
   })
 
   it('selects fake options with all given fields matching equivalent fields in real options', function() {
