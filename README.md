@@ -72,7 +72,6 @@ Put files in `dependencies/` and `lib/jasmine-fake-ajax.js` to your load path. Y
 ## TODO
 
 * don't use default success data at all, if matching fake options not found then warn and do nothing else
-* use underscore everywhere instead of functional jQuery (filter, map)
 * implement jasmine.FakeAjax.register({url: '/a'}) and use in init
 * extract informative warn/error logging with options, test name
 * update jquery
