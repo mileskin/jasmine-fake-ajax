@@ -4,7 +4,7 @@ describe('logging', function() {
   function TestLog() {
     this.warnings = []
     this.errors = []
-    this.latestWarning = function() { return this.warnings[this.warnings.length - 1] }
+    this.latestWarning = function() { return _.last(this.warnings) }
     this.latestError = function() { return this.errors[this.errors.length - 1] }
     jasmine.FakeAjax.log.warn = function(message) {
       testLog.warnings.push(message)
