@@ -32,7 +32,7 @@ release() {
 # MAIN
 
 if [[ $# -ne 1 ]]; then
-  echo "Version number is missing."
+  echo "Version number is missing (latest released version is '$(git tag | tail -1)')."
   usage
 fi
 
