@@ -1,0 +1,42 @@
+#!/bin/bash
+
+set -eu
+
+usage() {
+  echo "Usage: ./$(basename $0) version"
+  exit 1
+}
+
+checkVersion() {
+  local version="$1"
+  if [[ $(git tag | grep "${version}" | wc -l) -ne 0 ]]; then
+    echo "Version '${version}' exists already. Use 'git tag' to see all current versions."
+    echo "Aborting..."
+    exit 1
+  fi
+}
+
+release() {
+  local version="$1"
+  echo "Releasing version '${version}'..."
+  local target=releases/jasmine-fake-ajax-${version}.js
+  cp lib/jasmine-fake-ajax.js ${target}
+  git tag -a "${version}"
+  git push --tags
+  git add ${target}
+  git commit -m "Release version ${version}"
+  git push origin master
+  echo "Done."
+}
+
+# MAIN
+
+if [[ ! $# == 1 ]]; then
+  echo "Version number is missing."
+  usage
+fi
+
+version="$1"
+checkVersion ${version}
+release ${version}
+
