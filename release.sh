@@ -26,7 +26,7 @@ release() {
   git push origin master
   git tag -a "${version}"
   git push --tags
-  echo "Done."
+  toilet --gay "kthxbye"
 }
 
 # MAIN
