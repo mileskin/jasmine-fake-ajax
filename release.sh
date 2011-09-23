@@ -31,7 +31,7 @@ release() {
 
 # MAIN
 
-if [[ ! $# == 1 ]]; then
+if [[ $# -ne 1 ]]; then
   echo "Version number is missing."
   usage
 fi
