@@ -21,11 +21,11 @@ release() {
   echo "Releasing version '${version}'..."
   local target=releases/jasmine-fake-ajax-${version}.js
   cp lib/jasmine-fake-ajax.js ${target}
-  git tag -a "${version}"
-  git push --tags
   git add ${target}
   git commit -m "Release version ${version}"
   git push origin master
+  git tag -a "${version}"
+  git push --tags
   echo "Done."
 }
 
