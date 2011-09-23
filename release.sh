@@ -7,10 +7,15 @@ usage() {
   exit 1
 }
 
+hintVersion() {
+  echo "Hint: latest released version is '$(git tag | tail -1)'."
+}
+
 checkVersion() {
   local version="$1"
   if [[ $(git tag | grep "${version}" | wc -l) -ne 0 ]]; then
     echo "Version '${version}' exists already. Use 'git tag' to see all current versions."
+    hintVersion
     echo "Aborting..."
     exit 1
   fi
@@ -32,7 +37,8 @@ release() {
 # MAIN
 
 if [[ $# -ne 1 ]]; then
-  echo "Version number is missing (latest released version is '$(git tag | tail -1)')."
+  echo "Version number is missing."
+  hintVersion
   usage
 fi
 
