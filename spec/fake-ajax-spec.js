@@ -1,3 +1,6 @@
+var result
+var successHandler = function(data) { result = data }
+
 describe('simple example', function() {
   it('just works', function() {
     fakeAjax({mappings:[
@@ -12,9 +15,6 @@ describe('simple example', function() {
 })
 
 describe('rules for resolving which fake ajax options match the real options', function() {
-  var result
-  var successHandler = function(data) { result = data }
-
   it('default type is get', function() {
     fakeAjax({mappings:[{url: '/a', successData: '1'}]})
     $.get('/a', successHandler)
@@ -95,6 +95,25 @@ describe('rules for resolving which fake ajax options match the real options', f
     ]})
     $.ajax({async: true, success: successHandler})
     expect(result).toEqual(1)
+  })
+})
+
+describe('registering fake ajax options', function() {
+  it('allows adding options groupped and/or one by one', function() {
+    registerFakeAjax({url: 'a', successData: 1})
+    fakeAjax({mappings:[
+      {url: 'b', successData: 2},
+      {url: 'c', successData: 3}
+    ]})
+    registerFakeAjax({url: 'd', successData: 4})
+    $.ajax({url: 'a', success: successHandler})
+    expect(result).toEqual(1)
+    $.ajax({url: 'b', success: successHandler})
+    expect(result).toEqual(2)
+    $.ajax({url: 'c', success: successHandler})
+    expect(result).toEqual(3)
+    $.ajax({url: 'd', success: successHandler})
+    expect(result).toEqual(4)
   })
 })
 

@@ -73,8 +73,6 @@ Put files in `dependencies/` and `lib/jasmine-fake-ajax.js` to your load path. Y
 
 * run all tests after every change to sources, headless? maybe using [something
   like this](http://blog.bitmechanic.com/continuous-integration-for-qunit-tests)?
-* implement jasmine.FakeAjax.register({url: '/a'}) and use in init
-  (maybe global .addFakeAjaxOptions?)
 * introduce proper xhr, not just message
 * rewrite with coffeescript
 
