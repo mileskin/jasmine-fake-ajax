@@ -28,9 +28,9 @@ release() {
   cp lib/jasmine-fake-ajax.js ${target}
   git add ${target}
   git commit -m "Release version ${version}"
-  git push origin master
   git tag -a "${version}"
   git push --tags
+  git push origin master
   toilet --gay "kthxbye"
 }
 
