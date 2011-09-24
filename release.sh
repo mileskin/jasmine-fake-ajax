@@ -28,7 +28,7 @@ release() {
   cp lib/jasmine-fake-ajax.js ${target}
   git add ${target}
   git commit -m "Release version ${version}"
-  git tag -a "${version}"
+  git tag -a "${version}" # opens editor for message
   git push --tags
   git push origin master
   echo "Released version '${version}'."
