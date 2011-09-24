@@ -31,7 +31,7 @@ release() {
   git tag -a "${version}"
   git push --tags
   git push origin master
-  toilet --gay "kthxbye"
+  echo "Released version '${version}'."
 }
 
 # MAIN
@@ -45,4 +45,5 @@ fi
 version="$1"
 checkVersion ${version}
 release ${version}
+toilet --gay "kthxbye"
 
