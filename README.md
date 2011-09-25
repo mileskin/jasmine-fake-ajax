@@ -8,9 +8,7 @@ Simplified:
 
     describe('simple example', function() {
       it('just works', function() {
-        fakeAjax({registrations:[
-          {url: '/simple', successData: 'world!'}
-        ]})
+        registerFakeAjax({url: '/simple', successData: 'world!'})
         var message = 'hello '
         $.get('/simple', function(data) {
           message += data

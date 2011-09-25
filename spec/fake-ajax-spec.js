@@ -3,9 +3,7 @@ var successHandler = function(data) { result = data }
 
 describe('simple example', function() {
   it('just works', function() {
-    fakeAjax({registrations:[
-      {url: '/simple', successData: 'world!'}
-    ]})
+    registerFakeAjax({url: '/simple', successData: 'world!'})
     var message = 'hello '
     $.get('/simple', function(data) {
       message += data
@@ -16,9 +14,9 @@ describe('simple example', function() {
 
 describe('rules for resolving which fake ajax options match the real options', function() {
   it('default type is get', function() {
-    fakeAjax({registrations:[{url: '/a', successData: '1'}]})
+    registerFakeAjax({url: '/a', successData: 1})
     $.get('/a', successHandler)
-    expect(result).toEqual('1')
+    expect(result).toEqual(1)
   })
 
   it('raises error when multiple matching fake options are found', function() {
