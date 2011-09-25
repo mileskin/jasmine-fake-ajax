@@ -33,6 +33,8 @@ Support for RESTfull requests by defining HTTP method (type). Also data, dataTyp
     ]})
     $.ajax({url: '/example', type: 'post', data: {user: 'dog'}})
 
+You can register fake ajax options in a list using `fakeAjax({registrations:[options1, options2]})` and/or one by one using `registerFakeAjax(options)`.
+
 You may inline the test data
 
     fakeAjax({registrations:[{url: '/succeeds', successData: 'Jasmine FTW!'}]})
