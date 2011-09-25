@@ -8,7 +8,7 @@ Simplified:
 
     describe('simple example', function() {
       it('just works', function() {
-        fakeAjax({mappings:[
+        fakeAjax({registrations:[
           {url: '/simple', successData: 'world!'}
         ]})
         var message = 'hello '
@@ -21,13 +21,13 @@ Simplified:
 
 Support for RESTfull requests by defining HTTP method (type). Also data, dataType and async are used for matching fake vs. real Ajax options:
 
-    fakeAjax({mappings:[
+    fakeAjax({registrations:[
       {url: '/example', type: 'put'}, // no match
       {url: '/example', type: 'post'} // match!
     ]})
     $.ajax({url: '/example', type: 'post', data: {user: 'dog'}, dataType: 'json'})
 
-    fakeAjax({mappings:[
+    fakeAjax({registrations:[
       {url: '/example', type: 'post', data: {user: 'dog'}}, // match!
       {url: '/example', type: 'post', data: {user: 'cat'}}  // no match
     ]})
@@ -35,23 +35,23 @@ Support for RESTfull requests by defining HTTP method (type). Also data, dataTyp
 
 You may inline the test data
 
-    fakeAjax({mappings:[{url: '/succeeds', successData: 'Jasmine FTW!'}]})
+    fakeAjax({registrations:[{url: '/succeeds', successData: 'Jasmine FTW!'}]})
 
 or load the test data using `loadTestData`. Here we load the contents of `.questions` from `fake-ajax-fixture.html`:
 
-    fakeAjax({mappings:[{url: '/questions/list', successData: loadTestData('.questions', 'fake-ajax-fixture.html')}]})
+    fakeAjax({registrations:[{url: '/questions/list', successData: loadTestData('.questions', 'fake-ajax-fixture.html')}]})
 
 and when you need the error handler to be called you can
 
-    fakeAjax({mappings:[{url: '/fails', errorMessage: 'argh'}]})
+    fakeAjax({registrations:[{url: '/fails', errorMessage: 'argh'}]})
 
 Fake response data in JSON format (simply a js map):
 
-    fakeAjax({mappings:[{url: '/user', successData: {name: 'John', age: 30}}]})
+    fakeAjax({registrations:[{url: '/user', successData: {name: 'John', age: 30}}]})
 
 Often, multiple Ajax calls are executed under the hood when e.g. clicking a link. `fakeAjax` lets you define which calls will succeed and which will fail:
 
-    fakeAjax({mappings:[
+    fakeAjax({registrations:[
       {url: '/answers/get?questionId=question2', successData: loadTestData('.answer2', 'fake-ajax-fixture.html')},
       {url: '/authors/get?answerId=answer2', errorMessage: 'author data not available'},
       {url: '/onError', successData: 'Please try again later.'}

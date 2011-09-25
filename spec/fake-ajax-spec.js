@@ -3,7 +3,7 @@ var successHandler = function(data) { result = data }
 
 describe('simple example', function() {
   it('just works', function() {
-    fakeAjax({mappings:[
+    fakeAjax({registrations:[
       {url: '/simple', successData: 'world!'}
     ]})
     var message = 'hello '
@@ -16,13 +16,13 @@ describe('simple example', function() {
 
 describe('rules for resolving which fake ajax options match the real options', function() {
   it('default type is get', function() {
-    fakeAjax({mappings:[{url: '/a', successData: '1'}]})
+    fakeAjax({registrations:[{url: '/a', successData: '1'}]})
     $.get('/a', successHandler)
     expect(result).toEqual('1')
   })
 
   it('raises error when multiple matching fake options are found', function() {
-    fakeAjax({mappings:[
+    fakeAjax({registrations:[
       {url: '/x'},
       {url: '/x', type: 'get'},
     ]})
@@ -30,7 +30,7 @@ describe('rules for resolving which fake ajax options match the real options', f
   })
 
   it('selects fake options with all given fields matching equivalent fields in real options', function() {
-    fakeAjax({mappings:[
+    fakeAjax({registrations:[
       {url: '/a', data: {user: 'cat'}, successData: 1},
       {url: '/a', data: {user: 'dog'}, successData: 2},
       {url: '/a', type: 'post', successData: 3},
@@ -53,7 +53,7 @@ describe('rules for resolving which fake ajax options match the real options', f
   })
 
   it('compares url', function() {
-    fakeAjax({mappings:[
+    fakeAjax({registrations:[
       {url: '/a', successData: 1},
       {url: '/b', successData: 2}
     ]})
@@ -62,7 +62,7 @@ describe('rules for resolving which fake ajax options match the real options', f
   })
 
   it('compares type', function() {
-    fakeAjax({mappings:[
+    fakeAjax({registrations:[
       {type: 'put', successData: 1},
       {type: 'delete', successData: 2}
     ]})
@@ -71,7 +71,7 @@ describe('rules for resolving which fake ajax options match the real options', f
   })
 
   it('compares data', function() {
-    fakeAjax({mappings:[
+    fakeAjax({registrations:[
       {data: {user: 'dog'}, successData: 1},
       {data: {user: 'cat'}, successData: 2}
     ]})
@@ -80,7 +80,7 @@ describe('rules for resolving which fake ajax options match the real options', f
   })
 
   it('compares dataType', function() {
-    fakeAjax({mappings:[
+    fakeAjax({registrations:[
       {dataType: 'json', successData: 1},
       {dataType: 'xml', successData: 2}
     ]})
@@ -89,7 +89,7 @@ describe('rules for resolving which fake ajax options match the real options', f
   })
 
   it('compares async', function() {
-    fakeAjax({mappings:[
+    fakeAjax({registrations:[
       {async: true, successData: 1},
       {async: false, successData: 2}
     ]})
@@ -101,7 +101,7 @@ describe('rules for resolving which fake ajax options match the real options', f
 describe('registering fake ajax options', function() {
   it('allows adding options groupped and/or one by one', function() {
     registerFakeAjax({url: 'a', successData: 1})
-    fakeAjax({mappings:[
+    fakeAjax({registrations:[
       {url: 'b', successData: 2},
       {url: 'c', successData: 3}
     ]})
@@ -127,7 +127,7 @@ describe('showing questions', function() {
 
   describe('succeeds', function() {
     beforeEach(function() {
-      fakeAjax({mappings:[{url: '/questions/list', successData: loadTestData('.questions', 'fake-ajax-fixture.html')}]})
+      fakeAjax({registrations:[{url: '/questions/list', successData: loadTestData('.questions', 'fake-ajax-fixture.html')}]})
       $('.showQuestions').click()
     })
 
@@ -139,7 +139,7 @@ describe('showing questions', function() {
 
   describe('fails', function() {
     beforeEach(function() {
-      fakeAjax({mappings:[{url: '/questions/list', errorMessage: 'Failed loading questions.'}]})
+      fakeAjax({registrations:[{url: '/questions/list', errorMessage: 'Failed loading questions.'}]})
       $('.showQuestions').click()
     })
 
@@ -154,7 +154,7 @@ describe('showing questions', function() {
 describe('.countResponseLength', function() {
   describe('succeeds', function() {
     beforeEach(function() {
-      fakeAjax({mappings:[{url: '/succeeds', successData: 'Jasmine FTW!'}]})
+      fakeAjax({registrations:[{url: '/succeeds', successData: 'Jasmine FTW!'}]})
     })
 
     it('counts response length', function() {
@@ -164,7 +164,7 @@ describe('.countResponseLength', function() {
 
   describe('fails', function() {
     beforeEach(function() {
-      fakeAjax({mappings:[{url: '/fails', errorMessage: 'argh'}]})
+      fakeAjax({registrations:[{url: '/fails', errorMessage: 'argh'}]})
     })
 
     it('yields given default value', function() {
@@ -189,7 +189,7 @@ describe('clicking question', function() {
     beforeEach(function() {
       setFixtures('<ul class="questions"><li id="question1">q1</li><li id="question2">q2</li></ul><div class="answerContainer"></div>')
       sut.setupAnswersBehavior()
-      fakeAjax({mappings:[
+      fakeAjax({registrations:[
         {url: '/answers/get?questionId=question2', successData: loadTestData('.answer2', 'fake-ajax-fixture.html')},
         {url: '/authors/get?answerId=answer2', errorMessage: 'author data not available'},
         {url: '/onError', successData: 'Please try again later.'}
@@ -228,7 +228,7 @@ describe('showing user info', function() {
   beforeEach(function() {
     setFixtures('<button class="showUser"/><div class="user"><div class="name"></div><div class="age"></div></div>')
     sut.setupUserBehavior()
-    fakeAjax({mappings:[{url: '/user', successData: {name: 'John', age: 30}}]})
+    fakeAjax({registrations:[{url: '/user', successData: {name: 'John', age: 30}}]})
     $('.showUser').click()
   })
 
@@ -253,7 +253,7 @@ describe('supported callbacks', function() {
   var completeWasCalled = false
 
   beforeEach(function() {
-    fakeAjax({mappings:[{url: '/example', successData: 'yay'}]})
+    fakeAjax({registrations:[{url: '/example', successData: 'yay'}]})
     $.ajax({
       url: '/example',
       beforeSend: function() {
@@ -293,7 +293,7 @@ describe('context option', function() {
     spyOn(Context, 'onSuccess')
     spyOn(Context, 'onError')
     spyOn(Context, 'onComplete')
-    fakeAjax({mappings:[
+    fakeAjax({registrations:[
       {url: '/test/context/success', successData: 'success data'},
       {url: '/test/context/error', errorMessage: 'error message'},
       {url: '/test/context/complete', successData: 'any'}

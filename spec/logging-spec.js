@@ -46,7 +46,7 @@ describe('logging', function() {
 
   describe('without matching url', function() {
     it('logs warning with real url and spec description', function() {
-      fakeAjax({mappings:[{url: '/this'}]})
+      fakeAjax({registrations:[{url: '/this'}]})
       $.get('/that', function(){})
       expect(testLog.latestWarning()).toEqual("No matching fake ajax options was found, spec: 'logs warning with real url and spec description', real ajax url: '/that'.")
     })
@@ -54,7 +54,7 @@ describe('logging', function() {
 
   describe('without success handler in real options (though successData is defined in fake options)', function() {
     it('logs and throws error message', function() {
-      fakeAjax({mappings:[{url: 'a', successData: 1}]})
+      fakeAjax({registrations:[{url: 'a', successData: 1}]})
       expect(function() {
         $.get('a')
       }).toLogAndThrow("Ajax success handler is not defined in system under test for url 'a'.")
@@ -63,7 +63,7 @@ describe('logging', function() {
 
   describe('without error handler in real options (though errorMessage is defined in fake options)', function() {
     it('logs and throws error message', function() {
-      fakeAjax({mappings:[{url: 'a', errorMessage: 1}]})
+      fakeAjax({registrations:[{url: 'a', errorMessage: 1}]})
       expect(function() {
         $.get('a')
       }).toLogAndThrow("Ajax error handler is not defined in system under test for url 'a'.")
@@ -72,7 +72,7 @@ describe('logging', function() {
 
   describe('when no successData or errorMessage is defined', function() {
     it('logs and throws error message', function() {
-      fakeAjax({mappings:[{url: 'a'}]})
+      fakeAjax({registrations:[{url: 'a'}]})
       expect(function() {
         $.get('a')
       }).toLogAndThrow("Either successData or errorMessage must be defined for url 'a'.")
