@@ -277,6 +277,29 @@ describe('supported callbacks', function() {
   it('.complete', function() {
     expect(completeWasCalled).toBeTruthy()
   })
+
+  describe('array of callbacks', function() {
+    it('success', function() {
+      var result = ''
+      registerFakeAjax({
+        url: 'a',
+        success: [
+          {data: 1},
+          {data: 2},
+          {data: 3}
+        ]
+      })
+      $.ajax({
+        url: 'a',
+        success: [
+          function(data) { result += ('a' + data); return data },
+          function(data) { result += ('b' + data); return data },
+          function(data) { result += ('c' + data) }
+        ]
+      })
+      expect(result).toEqual('a1b2c3')
+    })
+  })
 })
 
 describe('context option', function() {

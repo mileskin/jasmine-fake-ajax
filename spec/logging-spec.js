@@ -75,7 +75,7 @@ describe('logging', function() {
       fakeAjax({registrations:[{url: 'a'}]})
       expect(function() {
         $.get('a')
-      }).toLogAndThrow("Either successData or errorMessage must be defined for url 'a'.")
+      }).toLogAndThrow("One of success, successData or errorMessage must be defined for url 'a'.")
     })
   })
 
