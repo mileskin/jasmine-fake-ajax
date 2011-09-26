@@ -71,7 +71,7 @@ Put files in `dependencies/` and `lib/jasmine-fake-ajax.js` to your load path. Y
 
 ## TODO
 
-* introduce proper xhr, not just message
+* support proper success/error callbacks with data, jqXHR etc., not just successData/errorMessage
 * rewrite with coffeescript
 
 ---
