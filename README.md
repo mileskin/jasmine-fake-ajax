@@ -67,7 +67,27 @@ Warnings and errors during the test run are logged into the firebug console, so 
 
 ## Installation instructions
 
-Put files in `dependencies/` and `lib/jasmine-fake-ajax.js` to your load path. You should be good to go. Probably works with other jQuery versions than in `dependencies/`. However, please report if there are problems.
+In short: put files in `dependencies/` and `lib/jasmine-fake-ajax.js` to your load path. You should be good to go. Probably works with other jQuery versions than in `dependencies/`. However, please report if there are any problems.
+
+Dependencies for _using_ this lib:
+
+* [jQuery](http://jquery.com/), the lib should work with 1.4.x, 1.5.x
+  and 1.6.x, please report if you have any problems
+* [Jasmine](http://pivotal.github.com/jasmine/)
+* the great [underscore.js](http://documentcloud.github.com/underscore/)
+  is used for embrasing functional programming style in the lib
+
+Dependencies for _developing_ this lib and running the tests:
+
+* [jasmine-jquery](https://github.com/velesin/jasmine-jquery) for some
+  tests that use DOM
+* [PhantomJS](http://www.phantomjs.org/) for running tests headless from
+  command line
+* [Watchr](http://mynyml.com/ruby/flexible-continuous-testing) for
+  running all tests on any change to source files (using PhantomJS)
+* currently only one piece of js is written in
+  [CoffeeScript](http://jashkenas.github.com/coffee-script/) but I'm
+planning to use it more
 
 ## TODO
 
