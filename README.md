@@ -67,6 +67,8 @@ Warnings and errors during the test run are logged into the firebug console, so 
 
 ## Installation instructions
 
+Note: _the lib_ hear means `jasmine-fake-ajax-X.js`
+
 In short: put files in `dependencies/` and `lib/jasmine-fake-ajax.js` to your load path. You should be good to go. Probably works with other jQuery versions than in `dependencies/`. However, please report if there are any problems.
 
 Dependencies for _using_ this lib:
