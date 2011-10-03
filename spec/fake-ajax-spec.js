@@ -278,6 +278,32 @@ describe('supported callbacks', function() {
     expect(completeWasCalled).toBeTruthy()
   })
 
+  describe('error', function() {
+    var result = {}
+
+    it('passes given xhr to callback', function() {
+      registerFakeAjax({
+        url: 'a',
+        error: {
+          xhr: {
+            status: 500,
+            statusText: 'Internal Server Error',
+            responseText: 'oh noez'
+          }
+        }
+      })
+      $.ajax({
+        url: 'a',
+        error: function(xhr) {
+          result.xhr = xhr
+        }
+      })
+      expect(result.xhr.status).toEqual(500)
+      expect(result.xhr.statusText).toEqual('Internal Server Error')
+      expect(result.xhr.responseText).toEqual('oh noez')
+    })
+  })
+
   describe('array of callbacks', function() {
     it('success', function() {
       var result = ''
@@ -305,19 +331,19 @@ describe('supported callbacks', function() {
       registerFakeAjax({
         url: 'a',
         error: [
-          {xhr: {responseText: '1'}},
+          {xhr: {status: 404, responseText: '1'}},
           {xhr: {responseText: '2'}},
-          {xhr: {responseText: '3'}}        ]
+          {xhr: {responseText: '3', statusText: 'argh'}}        ]
       })
       $.ajax({
         url: 'a',
         error: [
-          function(xhr) { result += ('a' + xhr.responseText) },
+          function(xhr) { result += ('a' + xhr.responseText + xhr.status) },
           function(xhr) { result += ('b' + xhr.responseText) },
-          function(xhr) { result += ('c' + xhr.responseText) }
+          function(xhr) { result += ('c' + xhr.responseText + xhr.statusText) }
         ]
       })
-      expect(result).toEqual('a1b2c3')
+      expect(result).toEqual('a1404b2c3argh')
     })
   })
 })
