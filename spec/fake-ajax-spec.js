@@ -488,7 +488,7 @@ describe('logging', function() {
     })
   })
 
-  describe('when no successData or errorMessage is defined', function() {
+  describe('when no callback instruction is specified', function() {
     it('logs and throws error message', function() {
       fakeAjax({registrations:[{url: 'a'}]})
       expect(function() {
