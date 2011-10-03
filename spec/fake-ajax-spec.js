@@ -292,8 +292,8 @@ describe('supported callbacks', function() {
       $.ajax({
         url: 'a',
         success: [
-          function(data) { result += ('a' + data); return data },
-          function(data) { result += ('b' + data); return data },
+          function(data) { result += ('a' + data) },
+          function(data) { result += ('b' + data) },
           function(data) { result += ('c' + data) }
         ]
       })
