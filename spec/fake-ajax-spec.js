@@ -302,6 +302,20 @@ describe('supported callbacks', function() {
       expect(result.xhr.statusText).toEqual('Internal Server Error')
       expect(result.xhr.responseText).toEqual('oh noez')
     })
+
+    it('allows using errorMessage convenience property for cases it is enough', function() {
+      registerFakeAjax({
+        url: 'a',
+        errorMessage: 'fail'
+      })
+      $.ajax({
+        url: 'a',
+        error: function(xhr) {
+          result.errorMessage = xhr.responseText
+        }
+      })
+      expect(result.errorMessage).toEqual('fail')
+    })
   })
 
   describe('array of callbacks', function() {
