@@ -299,6 +299,26 @@ describe('supported callbacks', function() {
       })
       expect(result).toEqual('a1b2c3')
     })
+
+    it('error', function() {
+      var result = ''
+      registerFakeAjax({
+        url: 'a',
+        error: [
+          {xhr: {responseText: '1'}},
+          {xhr: {responseText: '2'}},
+          {xhr: {responseText: '3'}}        ]
+      })
+      $.ajax({
+        url: 'a',
+        error: [
+          function(xhr) { result += ('a' + xhr.responseText) },
+          function(xhr) { result += ('b' + xhr.responseText) },
+          function(xhr) { result += ('c' + xhr.responseText) }
+        ]
+      })
+      expect(result).toEqual('a1b2c3')
+    })
   })
 })
 
@@ -433,7 +453,7 @@ describe('logging', function() {
       fakeAjax({registrations:[{url: 'a'}]})
       expect(function() {
         $.get('a')
-      }).toLogAndThrow("One of success, successData or errorMessage must be defined for url 'a'.")
+      }).toLogAndThrow("One of success, error, successData or errorMessage must be defined for url 'a'.")
     })
   })
 
