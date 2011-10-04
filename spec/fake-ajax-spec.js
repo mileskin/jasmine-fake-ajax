@@ -497,6 +497,111 @@ describe('logging', function() {
     })
   })
 
+  describe('when fake success is an array but real success is not', function() {
+    it('logs and throws error message', function() {
+      registerFakeAjax({
+        url: 'a',
+        success: []
+      })
+      expect(function() {
+        $.ajax({
+          url: 'a',
+          success: function(){}
+        })
+      }).toLogAndThrow("Fake error must be an (success arguments) object when real error is a function for url 'a'.")
+    })
+  })
+
+  describe('when real success has different number of items than fake success', function() {
+    it('logs and throws error message', function() {
+      registerFakeAjax({
+        url: 'a',
+        success: [1]
+      })
+      expect(function() {
+        $.ajax({
+          url: 'a',
+          success: [1, 2]
+        })
+      }).toLogAndThrow("Fake success has 1 items but real success has 2 items for url 'a'.")
+    })
+  })
+
+  describe('when fake success is given but real success is not a function or an array', function() {
+    it('logs and throws error message', function() {
+      registerFakeAjax({
+        url: 'a',
+        success: {}
+      })
+      expect(function() {
+        $.ajax({
+          url: 'a',
+          success: "foo"
+        })
+      }).toLogAndThrow("Real success must be a function or an array of functions for url 'a'.")
+    })
+  })
+
+  describe('when fake error is an array but real error is not', function() {
+    it('logs and throws error message', function() {
+      registerFakeAjax({
+        url: 'a',
+        error: []
+      })
+      expect(function() {
+        $.ajax({
+          url: 'a',
+          error: function(){}
+        })
+      }).toLogAndThrow("Fake error must be an (error arguments) object when real error is a function for url 'a'.")
+    })
+  })
+
+  describe('when real error is an array but fake error is not', function() {
+    it('logs and throws error message', function() {
+      registerFakeAjax({
+        url: 'a',
+        error: {}
+      })
+      expect(function() {
+        $.ajax({
+          url: 'a',
+          error: []
+        })
+      }).toLogAndThrow("Real error is an array but fake error is not for url 'a'.")
+    })
+  })
+
+  describe('when real error has different number of items than fake error', function() {
+    it('logs and throws error message', function() {
+      registerFakeAjax({
+        url: 'a',
+        error: [1]
+      })
+      expect(function() {
+        $.ajax({
+          url: 'a',
+          error: [1, 2]
+        })
+      }).toLogAndThrow("Fake error has 1 items but real error has 2 items for url 'a'.")
+    })
+  })
+
+  describe('when fake error is given but real error is not a function or an array', function() {
+    it('logs and throws error message', function() {
+      registerFakeAjax({
+        url: 'a',
+        error: {}
+      })
+      expect(function() {
+        $.ajax({
+          url: 'a',
+          error: "foo"
+        })
+      }).toLogAndThrow("Real error must be a function or an array of functions for url 'a'.")
+    })
+  })
+
   describe('when fixture is not found', function() {
     it('logs and throws error message', function() {
       expect(function() {
