@@ -508,7 +508,7 @@ describe('logging', function() {
           url: 'a',
           success: function(){}
         })
-      }).toLogAndThrow("Fake error must be an (success arguments) object when real error is a function for url 'a'.")
+      }).toLogAndThrow("Fake success must be an (success arguments) object when real success is a function for url 'a'.")
     })
   })
 
