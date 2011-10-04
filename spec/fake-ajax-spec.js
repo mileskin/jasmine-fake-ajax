@@ -278,6 +278,36 @@ describe('supported callbacks', function() {
     expect(completeWasCalled).toBeTruthy()
   })
 
+  describe('success', function() {
+    var result = {}
+
+    it('passes given data, textStatus and xhr to sut', function() {
+      registerFakeAjax({
+        url: 'a',
+        success: {
+          data: {name: 'Bob'},
+          textStatus: 'ok',
+          xhr: {
+            status: 200,
+            responseText: 'yay'
+          }
+        }
+      })
+      $.ajax({
+        url: 'a',
+        success: function(data, textStatus, xhr) {
+          result.data = data
+          result.textStatus = textStatus
+          result.xhr = xhr
+        }
+      })
+      expect(result.data.name).toEqual('Bob')
+      expect(result.textStatus).toEqual('ok')
+      expect(result.xhr.status).toEqual(200)
+      expect(result.xhr.responseText).toEqual('yay')
+    })
+  })
+
   describe('error', function() {
     var result = {}
 
