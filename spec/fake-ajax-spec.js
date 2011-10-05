@@ -109,20 +109,13 @@ describe('registering fake ajax options', function() {
     ]})
     registerFakeAjax({url: 'a', successData: 1})
 
-    $.ajax({url: 'a', success: successHandler})
-    expect(result).toEqual(1)
-
-    $.ajax({url: 'b', success: successHandler})
-    expect(result).toEqual(2)
-
-    $.ajax({url: 'c', success: successHandler})
-    expect(result).toEqual(3)
-
-    $.ajax({url: 'd', success: successHandler})
-    expect(result).toEqual(4)
-
-    $.ajax({url: 'e', success: successHandler})
-    expect(result).toEqual(5)
+    function assertResult(url, expectedResult) {
+      $.ajax({url: url, success: successHandler})
+      expect(result).toEqual(expectedResult)
+    }
+    _.each([['a', 1], ['b', 2], ['c', 3], ['d', 4], ['e', 5]], function(entry) {
+      assertResult(entry[0], entry[1])
+    })
   })
 })
 
