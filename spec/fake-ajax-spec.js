@@ -97,21 +97,32 @@ describe('rules for resolving which fake ajax options match the real options', f
 })
 
 describe('registering fake ajax options', function() {
+  beforeEach(function() {
+    registerFakeAjax({url: 'e', successData: 5})
+  })
+
   it('allows adding options groupped and/or one by one', function() {
-    registerFakeAjax({url: 'a', successData: 1})
+    registerFakeAjax({url: 'd', successData: 4})
     fakeAjax({registrations:[
       {url: 'b', successData: 2},
       {url: 'c', successData: 3}
     ]})
-    registerFakeAjax({url: 'd', successData: 4})
+    registerFakeAjax({url: 'a', successData: 1})
+
     $.ajax({url: 'a', success: successHandler})
     expect(result).toEqual(1)
+
     $.ajax({url: 'b', success: successHandler})
     expect(result).toEqual(2)
+
     $.ajax({url: 'c', success: successHandler})
     expect(result).toEqual(3)
+
     $.ajax({url: 'd', success: successHandler})
     expect(result).toEqual(4)
+
+    $.ajax({url: 'e', success: successHandler})
+    expect(result).toEqual(5)
   })
 })
 
