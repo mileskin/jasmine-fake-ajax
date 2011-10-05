@@ -49,7 +49,7 @@ You may inline the test data
 
     fakeAjax({registrations:[{url: '/succeeds', successData: 'Jasmine FTW!'}]})
 
-or load the test data using `loadTestData`. Here we load the contents of `.questions` from `fake-ajax-fixture.html`:
+or load the test data using `loadTestData`. You can add multiple blocks of fake html and then use any jQuery selector to pick the right one. Here we load the contents of `.questions` from `fake-ajax-fixture.html`:
 
     fakeAjax({registrations:[{url: '/questions/list', successData: loadTestData('.questions', 'fake-ajax-fixture.html')}]})
 
