@@ -1,6 +1,3 @@
-var result
-var successHandler = function(data) { result = data }
-
 describe('simple example', function() {
   it('just works', function() {
     registerFakeAjax({url: '/simple', successData: 'world!'})
@@ -16,7 +13,7 @@ describe('rules for resolving which fake ajax options match the real options', f
   it('default type is get', function() {
     registerFakeAjax({url: '/a', successData: 1})
     $.get('/a', successHandler)
-    expect(result).toEqual(1)
+    expect(result.success.data).toEqual(1)
   })
 
   it('raises error when multiple matching fake options are found', function() {
@@ -38,16 +35,16 @@ describe('rules for resolving which fake ajax options match the real options', f
     ]})
 
     $.ajax({url: '/a', type: 'get', data: {user: 'dog'}, success: successHandler})
-    expect(result).toEqual(2)
+    expect(result.success.data).toEqual(2)
 
     $.post('/a', successHandler)
-    expect(result).toEqual(3)
+    expect(result.success.data).toEqual(3)
 
     $.ajax({url: '/b', type: 'put', dataType: 'json', async: false, data: {user: 'bob', age: 30}, success: successHandler})
-    expect(result).toEqual(4)
+    expect(result.success.data).toEqual(4)
 
     $.ajax({url: '/c', data: {age: 99}, async: true, success: successHandler})
-    expect(result).toEqual(6)
+    expect(result.success.data).toEqual(6)
   })
 
   it('compares url', function() {
@@ -56,7 +53,7 @@ describe('rules for resolving which fake ajax options match the real options', f
       {url: '/b', successData: 2}
     ]})
     $.get('/b', successHandler)
-    expect(result).toEqual(2)
+    expect(result.success.data).toEqual(2)
   })
 
   it('compares type', function() {
@@ -65,7 +62,7 @@ describe('rules for resolving which fake ajax options match the real options', f
       {type: 'delete', successData: 2}
     ]})
     $.ajax({type: 'delete', success: successHandler})
-    expect(result).toEqual(2)
+    expect(result.success.data).toEqual(2)
   })
 
   it('compares data', function() {
@@ -74,7 +71,7 @@ describe('rules for resolving which fake ajax options match the real options', f
       {data: {user: 'cat'}, successData: 2}
     ]})
     $.ajax({data: {user: 'cat'}, success: successHandler})
-    expect(result).toEqual(2)
+    expect(result.success.data).toEqual(2)
   })
 
   it('compares dataType', function() {
@@ -83,7 +80,7 @@ describe('rules for resolving which fake ajax options match the real options', f
       {dataType: 'xml', successData: 2}
     ]})
     $.ajax({dataType: 'json', success: successHandler})
-    expect(result).toEqual(1)
+    expect(result.success.data).toEqual(1)
   })
 
   it('compares async', function() {
@@ -92,7 +89,7 @@ describe('rules for resolving which fake ajax options match the real options', f
       {async: false, successData: 2}
     ]})
     $.ajax({async: true, success: successHandler})
-    expect(result).toEqual(1)
+    expect(result.success.data).toEqual(1)
   })
 })
 
@@ -111,7 +108,7 @@ describe('registering fake ajax options', function() {
 
     function assertResult(url, expectedResult) {
       $.ajax({url: url, success: successHandler})
-      expect(result).toEqual(expectedResult)
+      expect(result.success.data).toEqual(expectedResult)
     }
     _.each([['a', 1], ['b', 2], ['c', 3], ['d', 4], ['e', 5]], function(entry) {
       assertResult(entry[0], entry[1])
@@ -120,8 +117,6 @@ describe('registering fake ajax options', function() {
 })
 
 describe('loading test data', function() {
-  var result = {}
-
   it('json from file', function() {
     registerFakeAjax({
       url: 'a',
@@ -131,12 +126,10 @@ describe('loading test data', function() {
     $.ajax({
       url: 'a',
       dataType: 'json',
-      success: function(data) {
-        result.data = data
-      }
+      success: successHandler
     })
-    expect(result.data.name).toEqual('Tim')
-    expect(result.data.age).toEqual(10)
+    expect(result.success.data.name).toEqual('Tim')
+    expect(result.success.data.age).toEqual(10)
   })
 })
 
@@ -304,8 +297,6 @@ describe('supported callbacks', function() {
   })
 
   describe('success', function() {
-    var result = {}
-
     it('passes given data, textStatus and xhr to sut', function() {
       registerFakeAjax({
         url: 'a',
@@ -348,8 +339,6 @@ describe('supported callbacks', function() {
   })
 
   describe('error', function() {
-    var result = {}
-
     it('passes given xhr, textStatus and errorThrown to callback', function() {
       registerFakeAjax({
         url: 'a',
@@ -395,7 +384,7 @@ describe('supported callbacks', function() {
 
   describe('array of callbacks', function() {
     it('success', function() {
-      var result = ''
+      result.success.data = ""
       registerFakeAjax({
         url: 'a',
         success: [
@@ -407,16 +396,16 @@ describe('supported callbacks', function() {
       $.ajax({
         url: 'a',
         success: [
-          function(data) { result += ('a' + data) },
-          function(data) { result += ('b' + data) },
-          function(data) { result += ('c' + data) }
+          function(data) { result.success.data += ('a' + data) },
+          function(data) { result.success.data += ('b' + data) },
+          function(data) { result.success.data += ('c' + data) }
         ]
       })
-      expect(result).toEqual('a1b2c3')
+      expect(result.success.data).toEqual('a1b2c3')
     })
 
     it('error', function() {
-      var result = ''
+      var result = ""
       registerFakeAjax({
         url: 'a',
         error: [
@@ -708,5 +697,22 @@ describe('logging', function() {
       }).toLogAndThrow("Matching url was not found by partial url '/not-found' in spec 'logs and throws error message with partial url and spec description'.")
     })
   })
+})
+
+// Test helpers
+
+var result
+
+function successHandler(data, status, xhr) {
+  result.success.data = data
+  result.success.status = status
+  result.success.xhr = xhr
+}
+
+beforeEach(function() {
+  result = {
+    success: {},
+    error: {}
+  }
 })
 
