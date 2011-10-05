@@ -306,6 +306,20 @@ describe('supported callbacks', function() {
       expect(result.xhr.status).toEqual(200)
       expect(result.xhr.responseText).toEqual('yay')
     })
+
+    it('allows using successData convenience property for cases it is enough', function() {
+      registerFakeAjax({
+        url: 'a',
+        successData: 'it worked'
+      })
+      $.ajax({
+        url: 'a',
+        success: function(data) {
+          result.data = data
+        }
+      })
+      expect(result.data).toEqual('it worked')
+    })
   })
 
   describe('error', function() {
