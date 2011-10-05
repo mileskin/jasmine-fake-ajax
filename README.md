@@ -4,7 +4,9 @@ Usage in a nutshell: you provide a context which is a list of fake Ajax options 
 
 See `spec/fake-ajax-spec.js` for executable specification and many examples.
 
-Simplified:
+## Examples
+
+### Simplified
 
     describe('simple example', function() {
       it('just works', function() {
@@ -16,6 +18,8 @@ Simplified:
         expect(message).toEqual('Hello World!')
       })
     })
+
+### REST
 
 Support for RESTfull requests by defining HTTP method (type). Also data, dataType and async are used for matching fake vs. real Ajax options:
 
@@ -31,7 +35,11 @@ Support for RESTfull requests by defining HTTP method (type). Also data, dataTyp
     ]})
     $.ajax({url: '/example', type: 'post', data: {user: 'dog'}})
 
+### Registering fake Ajax
+
 You can register fake ajax options in a list using `fakeAjax({registrations:[options1, options2]})` and/or one by one using `registerFakeAjax(options)`.
+
+### Using test data
 
 You may inline the test data
 
@@ -49,6 +57,8 @@ Fake response data in JSON format (simply a js map):
 
     fakeAjax({registrations:[{url: '/user', successData: {name: 'John', age: 30}}]})
 
+### Multiple Ajax calls
+
 Often, multiple Ajax calls are executed under the hood when e.g. clicking a link. `fakeAjax` lets you define which calls will succeed and which will fail:
 
     fakeAjax({registrations:[
@@ -56,6 +66,8 @@ Often, multiple Ajax calls are executed under the hood when e.g. clicking a link
       {url: '/authors/get?answerId=answer2', errorMessage: 'author data not available'},
       {url: '/onError', successData: 'Please try again later.'}
     ]})
+
+### Inspecting Ajax requests
 
 You are not forced to define any context. Maybe you are only interested in what is sent to the server? Then you can use `latestAjax` or `latestAjaxWithUrlMatching` to get a handle to desired ajax options recorded during the test run:
 
