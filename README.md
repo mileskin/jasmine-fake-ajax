@@ -41,7 +41,10 @@ Support for RESTfull requests by defining HTTP method (type). Also data, dataTyp
 
 ### Registering fake Ajax
 
-You can register fake ajax options in a list using `fakeAjax({registrations:[options1, options2]})` and/or one by one using `registerFakeAjax(options)`.
+You can register fake ajax options in a list using `fakeAjax({registrations:[options1, options2]})` and/or one by one using `registerFakeAjax(options)`. You can easily mix and match both, e.g. registering some general options in `beforeEach` and then some custom options in `it`.
+
+The context (with all registered fake Ajax options) will be cleared
+before each test.
 
 ### Using test data
 
