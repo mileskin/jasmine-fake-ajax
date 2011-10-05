@@ -119,6 +119,27 @@ describe('registering fake ajax options', function() {
   })
 })
 
+describe('loading test data', function() {
+  var result = {}
+
+  it('json from file', function() {
+    registerFakeAjax({
+      url: 'a',
+      successData: fakeJsons.first
+    })
+
+    $.ajax({
+      url: 'a',
+      dataType: 'json',
+      success: function(data) {
+        result.data = data
+      }
+    })
+    expect(result.data.name).toEqual('Tim')
+    expect(result.data.age).toEqual(10)
+  })
+})
+
 // Fake AJAX with DOM, single AJAX call. Response test data is loaded using .loadTestData.
 
 describe('showing questions', function() {
