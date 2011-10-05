@@ -1,6 +1,10 @@
 # Fake Ajax to be used with the [Jasmine BDD framework](http://pivotal.github.com/jasmine/) and jQuery Ajax
 
+## Summary
+
 Usage in a nutshell: you provide a context which is a list of fake Ajax options with success data or error message. When the spec is run, fake ajax is called and the data you have supplied will be passed to the real system under test. You may use a combination of multiple fields for matching fake vs. real options.
+
+You may use the real jQuery Ajax anytime by calling `jasmine.FakeAjax.realAjax({...})`
 
 See `spec/fake-ajax-spec.js` for executable specification and many examples.
 
