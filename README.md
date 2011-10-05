@@ -8,12 +8,12 @@ Simplified:
 
     describe('simple example', function() {
       it('just works', function() {
-        registerFakeAjax({url: '/simple', successData: 'world!'})
-        var message = 'hello '
+        var message = 'Hello '
+        registerFakeAjax({url: '/simple', successData: 'World!'})
         $.get('/simple', function(data) {
           message += data
         })
-        expect(message).toEqual('hello world!')
+        expect(message).toEqual('Hello World!')
       })
     })
 
