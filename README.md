@@ -61,6 +61,22 @@ Fake response data in JSON format (simply a js map):
 
     fakeAjax({registrations:[{url: '/user', successData: {name: 'John', age: 30}}]})
 
+It should be straight forward to load fake JSON from an external file if you will:
+
+    fake-json.js:
+    var FakeJsons = {
+      first: {name: 'John', age: 30},
+      second: {foo: [{key: 1}, {key: 2}]}
+    }
+    // Load both files in spec runner html
+    my-spec.js:
+    registerFakeAjax({
+      url: '/example',
+      success: {
+        data: FakeJsons.second
+      }
+    })
+
 ### Multiple Ajax calls
 
 Often, multiple Ajax calls are executed under the hood when e.g. clicking a link. `fakeAjax` lets you define which calls will succeed and which will fail:
