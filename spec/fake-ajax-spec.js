@@ -395,19 +395,11 @@ describe('supported callbacks', function() {
       result.success.data = ""
       registerFakeAjax({
         url: 'a',
-        success: [
-          {data: 1},
-          {data: 2},
-          {data: 3}
-        ]
+        success: _.map([1, 2, 3], function(x){ return {data: x} })
       })
       $.ajax({
         url: 'a',
-        success: [
-          function(data) { result.success.data += ('a' + data) },
-          function(data) { result.success.data += ('b' + data) },
-          function(data) { result.success.data += ('c' + data) }
-        ]
+        success: _.map(['a', 'b', 'c'], function(x){ return function(data){ result.success.data += x + data } })
       })
       expect(result.success.data).toEqual('a1b2c3')
     })
