@@ -4,7 +4,8 @@
 
 Usage in a nutshell: you provide a context which is a list of fake Ajax options with success data or error message. When the spec is run, fake ajax is called and the data you have supplied will be passed to the real system under test. You may use a combination of multiple fields for matching fake vs. real options.
 
-You may use the real jQuery Ajax anytime by calling `jasmine.FakeAjax.realAjax({...})`
+You may use the real `jQuery.ajax` anytime by calling the global
+convenience function `realAjax({url: '/example', ...})`.
 
 See `spec/fake-ajax-spec.js` for executable specification and many examples.
 
