@@ -560,7 +560,7 @@ describe('logging', function() {
       fakeAjax({registrations:[{url: 'a'}]})
       expect(function() {
         $.get('a')
-      }).toLogAndThrow("One of success, error, successData or errorMessage must be defined for url 'a'.")
+      }).toLogAndThrow("Exactly one callback rule of success,successData,error,errorMessage must be defined for url 'a'. There was none.")
     })
   })
 
@@ -666,6 +666,15 @@ describe('logging', function() {
           error: "foo"
         })
       }).toLogAndThrow("Real error must be a function or an array of functions for url 'a'.")
+    })
+  })
+
+  describe('when more than one callback rule is given', function() {
+    it('logs and throws error message', function() {
+      registerFakeAjax({url: 'a', error: {}, successData: 'any', success: {}})
+      expect(function() {
+        $.get('a', successHandler)
+      }).toLogAndThrow("Exactly one callback rule of success,successData,error,errorMessage must be defined for url 'a'. There was 3: success,successData,error.")
     })
   })
 
