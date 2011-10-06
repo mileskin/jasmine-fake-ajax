@@ -129,8 +129,7 @@ planning to use it more
 
 ## TODO
 
-* support proper success/error callbacks with data, jqXHR etc., not just successData/errorMessage
-* rewrite with coffeescript
+* rewrite with [CoffeeScript](http://jashkenas.github.com/coffee-script/)!
 
 ---
 
