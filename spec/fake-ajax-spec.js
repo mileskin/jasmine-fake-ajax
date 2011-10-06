@@ -483,6 +483,18 @@ describe('context option', function() {
   })
 })
 
+describe('using real jQuery.ajax', function() {
+  it('supports global .realAjax convenience handle', function() {
+    realAjax({
+      url: 'example-fixture.html',
+      async: false,
+      dataType: 'html',
+      success: successHandler
+    })
+    expect($(result.success.data)).toHaveText('example')
+  })
+})
+
 describe('logging', function() {
   var testLog
 
