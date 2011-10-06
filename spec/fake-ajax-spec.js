@@ -16,18 +16,6 @@ describe('rules for resolving which fake ajax options match the real options', f
     expect(result.success.data).toEqual(1)
   })
 
-  it('raises error when multiple matching fake options are found', function() {
-    fakeAjax({registrations:[
-      {url: '/x'},
-      {url: '/x', type: 'get'},
-    ]})
-    expect(function(){
-      $.get('/x')
-    }).toThrow('Multiple matching fake ajax options found, not able to decide which callbacks to use ' +
-      'because the result was ambiguous. Real ajax options: {"type":"get","url":"/x"}. ' +
-      'All matching (and thus conflicting) fake options: {"url":"/x"},{"url":"/x","type":"get"}')
-  })
-
   it('selects fake options with all given fields matching equivalent fields in real options', function() {
     fakeAjax({registrations:[
       {url: '/a', data: {user: 'cat'}, successData: 1},
@@ -546,6 +534,20 @@ describe('logging', function() {
       $.get('/that', function(){})
       expect(testLog.latestWarning()).toEqual("No matching fake ajax options was found, spec: " +
         "'logs warning with real url and spec description', real ajax url: '/that'.")
+    })
+  })
+
+  describe('when multiple matching fake options are found', function() {
+    it('logs and throws error message', function() {
+      fakeAjax({registrations:[
+        {url: 'a'},
+        {url: 'a', type: 'get'}
+      ]})
+      expect(function() {
+        $.get('a')
+      }).toLogAndThrow('Multiple matching fake ajax options found, not able to decide which callbacks to use ' +
+        'because the result was ambiguous. Real ajax options: {"type":"get","url":"a"}. ' +
+        'All matching (and thus conflicting) fake options: {"url":"a"},{"url":"a","type":"get"}')
     })
   })
 
