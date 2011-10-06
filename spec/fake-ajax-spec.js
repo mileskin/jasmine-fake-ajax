@@ -21,7 +21,11 @@ describe('rules for resolving which fake ajax options match the real options', f
       {url: '/x'},
       {url: '/x', type: 'get'},
     ]})
-    expect(function(){ $.get('/x') }).toThrow('Multiple matching fake ajax options found, not able to decide which callbacks to use because the result was ambiguous. Real ajax options: {"type":"get","url":"/x"}. All matching (and thus conflicting) fake options: {"url":"/x"},{"url":"/x","type":"get"}')
+    expect(function(){
+      $.get('/x')
+    }).toThrow('Multiple matching fake ajax options found, not able to decide which callbacks to use ' +
+      'because the result was ambiguous. Real ajax options: {"type":"get","url":"/x"}. ' +
+      'All matching (and thus conflicting) fake options: {"url":"/x"},{"url":"/x","type":"get"}')
   })
 
   it('selects fake options with all given fields matching equivalent fields in real options', function() {
@@ -206,7 +210,8 @@ describe('.countResponseLength', function() {
 describe('clicking question', function() {
   describe('author is not available', function() {
     beforeEach(function() {
-      setFixtures('<ul class="questions"><li id="question1">q1</li><li id="question2">q2</li></ul><div class="answerContainer"></div>')
+      setFixtures('<ul class="questions"><li id="question1">q1</li><li id="question2">q2</li></ul>' +
+        '<div class="answerContainer"></div>')
       sut.setupAnswersBehavior()
       fakeAjax({registrations:[
         {url: '/answers/get?questionId=question2', successData: loadTestData('.answer2', 'fake-ajax-fixture.html')},
@@ -523,7 +528,8 @@ describe('logging', function() {
         result = (this.env.equals_(exception, expectedMessage) && this.env.contains_(testLog.errors, expectedMessage))
       }
       this.message = function() {
-        return "Expected function to log and throw '" + expectedMessage + "'. Logged error messages: [" + testLog.errors + "]. Actual error message thrown  by the function was '" + exception + "'."
+        return "Expected function to log and throw '" + expectedMessage + "'. Logged error messages: [" +
+          testLog.errors + "]. Actual error message thrown  by the function was '" + exception + "'."
       }
       return result
     }
@@ -537,7 +543,8 @@ describe('logging', function() {
   describe('without fake ajax options', function() {
     it('logs warning', function() {
       $.get('/example')
-      expect(testLog.latestWarning()).toEqual("There are no fake ajax options defined, spec: 'logs warning', real ajax url: '/example'.")
+      expect(testLog.latestWarning()).toEqual("There are no fake ajax options defined, spec: " +
+        "'logs warning', real ajax url: '/example'.")
     })
   })
 
@@ -545,7 +552,8 @@ describe('logging', function() {
     it('logs warning with real url and spec description', function() {
       fakeAjax({registrations:[{url: '/this'}]})
       $.get('/that', function(){})
-      expect(testLog.latestWarning()).toEqual("No matching fake ajax options was found, spec: 'logs warning with real url and spec description', real ajax url: '/that'.")
+      expect(testLog.latestWarning()).toEqual("No matching fake ajax options was found, spec: " +
+        "'logs warning with real url and spec description', real ajax url: '/that'.")
     })
   })
 
@@ -572,7 +580,8 @@ describe('logging', function() {
       fakeAjax({registrations:[{url: 'a'}]})
       expect(function() {
         $.get('a')
-      }).toLogAndThrow("Exactly one callback rule of [success, successData, error, errorMessage] must be defined for url 'a'. There was none.")
+      }).toLogAndThrow("Exactly one callback rule of [success, successData, error, errorMessage] " +
+        "must be defined for url 'a'. There was none.")
     })
   })
 
@@ -686,7 +695,8 @@ describe('logging', function() {
       registerFakeAjax({url: 'a', error: {}, successData: 'any', success: {}})
       expect(function() {
         $.get('a', successHandler)
-      }).toLogAndThrow("Exactly one callback rule of [success, successData, error, errorMessage] must be defined for url 'a'. There was 3: [success, successData, error].")
+      }).toLogAndThrow("Exactly one callback rule of [success, successData, error, errorMessage] " +
+        "must be defined for url 'a'. There was 3: [success, successData, error].")
     })
   })
 
@@ -718,7 +728,8 @@ describe('logging', function() {
     it('logs and throws error message with partial url and spec description', function() {
       expect(function() {
         latestAjaxWithUrlMatching('/not-found')
-      }).toLogAndThrow("Matching url was not found by partial url '/not-found' in spec 'logs and throws error message with partial url and spec description'.")
+      }).toLogAndThrow("Matching url was not found by partial url '/not-found' in spec " +
+        "'logs and throws error message with partial url and spec description'.")
     })
   })
 })
