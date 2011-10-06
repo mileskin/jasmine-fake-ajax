@@ -117,19 +117,22 @@ describe('registering fake ajax options', function() {
 })
 
 describe('loading test data', function() {
-  it('json from file', function() {
-    registerFakeAjax({
-      url: 'a',
-      successData: fakeJsons.first
+  describe('json', function() {
+    it('json object from external file', function() {
+      registerFakeAjax({url: 'a', successData: TestResponses.jsonObject})
+      $.getJSON('a',successHandler)
+      expect(result.success.data.name).toEqual('John')
+      expect(result.success.data.age).toEqual(30)
+      expect(result.success.data.children).toEqual([{name: 'Mary', age: 2}, {name: 'Jill', age: 4}])
     })
 
-    $.ajax({
-      url: 'a',
-      dataType: 'json',
-      success: successHandler
+    it('json string from external file', function() {
+      registerFakeAjax({url: 'b', successData: $.parseJSON(TestResponses.jsonString)})
+      $.getJSON('b',successHandler)
+      expect(result.success.data.name).toEqual('Tim')
+      expect(result.success.data.age).toEqual('10')
+      expect(result.success.data.toys).toEqual(['car1', 'car2'])
     })
-    expect(result.success.data.name).toEqual('Tim')
-    expect(result.success.data.age).toEqual(10)
   })
 })
 
