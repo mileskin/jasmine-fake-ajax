@@ -129,6 +129,7 @@ planning to use it more
 
 ## TODO
 
+* extract executable examples from executable spec
 * rewrite with [CoffeeScript](http://jashkenas.github.com/coffee-script/)!
 
 ---
