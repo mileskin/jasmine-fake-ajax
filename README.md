@@ -11,7 +11,7 @@ convenience function `realAjax({url: '/example', ...})`.
 
 See `spec/fake-ajax-spec.js` for executable specification and many examples.
 
-### Features
+## Features
 
 * Simple and convenient way of faking jQuery Ajax calls in Jasmine spec
 * Support for inlining the fake data (e.g. json, xml or html) or loading the fake data from external files using `loadTestData`
