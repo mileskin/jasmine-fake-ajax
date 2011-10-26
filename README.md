@@ -81,6 +81,28 @@ It should be straight forward to load fake JSON from an external file if you wil
       }
     })
 
+### Passing data to success/error handlers
+
+There are 4 possible callback rules you can use (only one at a time): `success`, `successData`, `error` and `errorMessage`.
+
+If you only need to define the success data you can use the simple `successData` callback rule:
+
+    registerFakeAjax({url: '/example', successData: 'yay'})
+
+However, if you need to be more specific with the success callback arguments you can use `success` callback rule:
+
+    registerFakeAjax({url: '/example', success: {data: {name: 'John'}, textStatus: 'ok', ...}})
+
+If you only need to define the error message you can use the simple `errorMessage` callback rule:
+
+    registerFakeAjax({url: '/example', errorMessage: 'crap'})
+
+However, if you need to be more specific with the error callback arguments you can use `error` callback rule:
+
+    registerFakeAjax({url: '/example', error: {xhr: {status: 500}, responseText: 'oh noez', ...}})
+
+Again, there are many more examples in `spec/fake-ajax-spec.js`.
+
 ### Multiple Ajax calls
 
 Often, multiple Ajax calls are executed under the hood when e.g. clicking a link. `fakeAjax` lets you define which calls will succeed and which will fail:
