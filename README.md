@@ -135,7 +135,7 @@ Dependencies for _using_ this lib:
   and 1.6.x, please report if you have any problems
 * [Jasmine](http://pivotal.github.com/jasmine/)
 * the great [underscore.js](http://documentcloud.github.com/underscore/)
-  is used for embrasing functional programming style in the lib
+  is used for embracing functional programming style in the lib
 
 Dependencies for _developing_ this lib and running the tests:
 
