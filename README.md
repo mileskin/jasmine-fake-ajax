@@ -2,7 +2,9 @@
 
 ## Summary
 
-Usage in a nutshell: you provide a context which is a list of fake Ajax options with success data or error message. When the spec is run, fake ajax is called and the data you have supplied will be passed to the real system under test. You may use a combination of multiple fields for matching fake vs. real options.
+Usage in a nutshell: you provide a context which is a list of fake Ajax options with a suitable callback rule (e.g. success or error).
+When the spec is run, fake ajax is called and the data you have supplied will be passed to the real system under test.
+You may use a combination of multiple fields for matching fake vs. real options.
 
 You may use the real `jQuery.ajax` anytime by calling the global
 convenience function `realAjax({url: '/example', ...})`.
