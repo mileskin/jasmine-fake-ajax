@@ -127,6 +127,15 @@ Dependencies for _developing_ this lib and running the tests:
   [CoffeeScript](http://jashkenas.github.com/coffee-script/) but I'm
 planning to use it more
 
+## Running the tests
+
+Tested with multiple versions of Firefox and Chrome. Both have very good
+development/debugging tools. Chrome seems to be a lot faster. Firefox
+should be ok out-of-the-box but if you want to use Chrome you must allow
+it to load local files:
+
+    open -a 'Google Chrome' --args --allow-file-access-from-files
+
 ## TODO
 
 * extract executable examples from executable spec
