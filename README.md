@@ -11,6 +11,20 @@ convenience function `realAjax({url: '/example', ...})`.
 
 See `spec/fake-ajax-spec.js` for executable specification and many examples.
 
+### Features
+
+* Simple and convenient way of faking jQuery Ajax calls in Jasmine spec
+* Support for inlining the fake data (e.g. json, xml or html) or loading the fake data from external files using `loadTestData`
+* Support for REST requests
+* Complete control on what is sent to callback functions
+* Support for inspecting Ajax requests (i.e. what is sent to the server) through `latestAjax` and `latestAjaxWithUrlMatching`
+* Dynamic way for resolving matching Ajax requests: you only need to define `url` if there are no conflicting requests or you may define additional fields such as `type` or `dataType`
+* Support for multiple Ajax calls (when e.g. clicking a link), you may have different callback rules for each request
+* Function or array of functions (success/error) callbacks (equivalent in jQuery)
+* Registering single/multiple fake Ajax callback rules through `registerFakeAjax({...})` `fakeAjax({registrations: {...}})`
+* Real jQuery Ajax can be used anytime through `realAjax` global convenience function
+* jQuery Ajax specific, no plans for supporting other libs (you might want to check out [jasmine-ajax](https://github.com/pivotal/jasmine-ajax) if you are not using jQuery)
+
 ## Examples
 
 ### Simplified
