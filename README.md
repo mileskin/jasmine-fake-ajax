@@ -23,6 +23,8 @@ See `spec/fake-ajax-spec.js` for executable specification and many examples.
 * Function or array of functions (success/error) callbacks (equivalent in jQuery)
 * Registering single/multiple fake Ajax callback rules through `registerFakeAjax({...})` `fakeAjax({registrations: {...}})`
 * Real jQuery Ajax can be used anytime through `realAjax` global convenience function
+* Descriptive and helpful warning/error messages logged to console
+* Works nicely with Firefox and Chrome
 * jQuery Ajax specific, no plans for supporting other libs (you might want to check out [jasmine-ajax](https://github.com/pivotal/jasmine-ajax) if you are not using jQuery)
 
 ## Examples
