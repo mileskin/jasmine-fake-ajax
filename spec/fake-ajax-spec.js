@@ -335,7 +335,7 @@ describe('supported callbacks', function() {
   })
 
   describe('error', function() {
-    it('passes given xhr, status and errorThrown to callback', function() {
+    it('passes given xhr, status and error to callback', function() {
       registerFakeAjax({
         url: 'a',
         error: {
@@ -345,22 +345,22 @@ describe('supported callbacks', function() {
             responseText: 'oh noez'
           },
           status: 'fail',
-          errorThrown: 'bad'
+          error: 'bad'
         }
       })
       $.ajax({
         url: 'a',
-        error: function(xhr, status, errorThrown) {
+        error: function(xhr, status, error) {
           result.xhr = xhr
           result.status = status
-          result.errorThrown = errorThrown
+          result.error = error
         }
       })
       expect(result.xhr.status).toEqual(500)
       expect(result.xhr.statusText).toEqual('Internal Server Error')
       expect(result.xhr.responseText).toEqual('oh noez')
       expect(result.status).toEqual('fail')
-      expect(result.errorThrown).toEqual('bad')
+      expect(result.error).toEqual('bad')
     })
 
     it('allows using errorMessage convenience property for cases it is enough', function() {
