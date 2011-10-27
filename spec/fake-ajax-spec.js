@@ -16,6 +16,18 @@ describe('rules for resolving which fake ajax options match the real options', f
     expect(result.success.data).toEqual(1)
   })
 
+  it('type is case-insensitive', function() {
+    fakeAjax({registrations:[
+      {url: '/a', type: 'gEt', successData: 1},
+      {url: '/b', type: 'PuT', successData: 2}
+    ]})
+    $.ajax({url: '/a', type: 'GET', success: successHandler})
+    expect(result.success.data).toEqual(1)
+
+    $.ajax({url: '/b', type: 'PUT', success: successHandler})
+    expect(result.success.data).toEqual(2)
+  })
+
   it('selects fake options with all given fields matching equivalent fields in real options', function() {
     fakeAjax({registrations:[
       {url: '/a', data: {user: 'cat'}, successData: 1},
