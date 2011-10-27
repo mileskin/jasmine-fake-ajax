@@ -109,7 +109,7 @@ If you only need to define the success data you can use the simple `successData`
 
 However, if you need to be more specific with the success callback arguments you can use `success` callback rule:
 
-    registerFakeAjax({url: '/example', success: {data: {name: 'John'}, textStatus: 'ok', ...}})
+    registerFakeAjax({url: '/example', success: {data: {name: 'John'}, status: 'ok', ...}})
 
 If you only need to define the error message you can use the simple `errorMessage` callback rule:
 

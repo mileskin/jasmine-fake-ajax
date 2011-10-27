@@ -293,12 +293,12 @@ describe('supported callbacks', function() {
   })
 
   describe('success', function() {
-    it('passes given data, textStatus and xhr to sut', function() {
+    it('passes given data, status and xhr to sut', function() {
       registerFakeAjax({
         url: 'a',
         success: {
           data: {name: 'Bob'},
-          textStatus: 'ok',
+          status: 'ok',
           xhr: {
             status: 200,
             responseText: 'yay'
@@ -307,14 +307,14 @@ describe('supported callbacks', function() {
       })
       $.ajax({
         url: 'a',
-        success: function(data, textStatus, xhr) {
+        success: function(data, status, xhr) {
           result.data = data
-          result.textStatus = textStatus
+          result.status = status
           result.xhr = xhr
         }
       })
       expect(result.data.name).toEqual('Bob')
-      expect(result.textStatus).toEqual('ok')
+      expect(result.status).toEqual('ok')
       expect(result.xhr.status).toEqual(200)
       expect(result.xhr.responseText).toEqual('yay')
     })
@@ -335,7 +335,7 @@ describe('supported callbacks', function() {
   })
 
   describe('error', function() {
-    it('passes given xhr, textStatus and errorThrown to callback', function() {
+    it('passes given xhr, status and errorThrown to callback', function() {
       registerFakeAjax({
         url: 'a',
         error: {
@@ -344,22 +344,22 @@ describe('supported callbacks', function() {
             statusText: 'Internal Server Error',
             responseText: 'oh noez'
           },
-          textStatus: 'fail',
+          status: 'fail',
           errorThrown: 'bad'
         }
       })
       $.ajax({
         url: 'a',
-        error: function(xhr, textStatus, errorThrown) {
+        error: function(xhr, status, errorThrown) {
           result.xhr = xhr
-          result.textStatus = textStatus
+          result.status = status
           result.errorThrown = errorThrown
         }
       })
       expect(result.xhr.status).toEqual(500)
       expect(result.xhr.statusText).toEqual('Internal Server Error')
       expect(result.xhr.responseText).toEqual('oh noez')
-      expect(result.textStatus).toEqual('fail')
+      expect(result.status).toEqual('fail')
       expect(result.errorThrown).toEqual('bad')
     })
 
