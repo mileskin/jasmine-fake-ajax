@@ -120,6 +120,37 @@ describe('registering fake ajax options', function() {
   })
 })
 
+describe('using real ajax for some ajax calls', function() {
+  var expectedData
+  var realOptions = {
+    url: 'example-fixture.html',
+    async: false,
+    dataType: 'html',
+    success: function(data) {
+      expectedData = data
+    }
+  }
+
+  beforeEach(function() {
+    expectedData = 'initial'
+  })
+
+  it('delegates registered ajax options (that should be bypassed) to real ajax', function() {
+    useRealAjaxFor({url: 'example-fixture.html'})
+    $.ajax(realOptions)
+    expect($(expectedData)).toHaveText('example')
+  })
+
+  it('delegates to real ajax only if options match', function() {
+    var exampleOptions = {url: 'example-fixture.html'}
+    _.each([{async: true}, {async: false, dataType: 'xml'}], function(nonMatchingFields) {
+      useRealAjaxFor($.extend(exampleOptions, nonMatchingFields))
+      $.ajax(realOptions)
+      expect(expectedData).toEqual('initial')
+    })
+  })
+})
+
 describe('loading test data', function() {
   describe('json', function() {
     it('json object from external file', function() {
