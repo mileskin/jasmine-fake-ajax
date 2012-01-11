@@ -588,9 +588,9 @@ describe('logging', function() {
       ]})
       expect(function() {
         $.get('a')
-      }).toLogAndThrow('Multiple matching fake ajax options found, not able to decide which callbacks to use ' +
+      }).toLogAndThrow('Multiple matching ajax options found, not able to decide which callbacks to use ' +
         'because the result was ambiguous. Real ajax options: {"type":"get","url":"a"}. ' +
-        'All matching (and thus conflicting) fake options: {"url":"a"},{"url":"a","type":"get"}')
+        'All matching (and thus conflicting) options: {"url":"a"},{"url":"a","type":"get"}')
     })
   })
 
