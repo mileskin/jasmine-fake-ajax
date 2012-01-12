@@ -22,6 +22,7 @@ See `spec/fake-ajax-spec.js` for executable specification and many examples.
 * Function or array of functions (success/error) callbacks (equivalent in jQuery)
 * Registering single/multiple fake Ajax callback rules through `registerFakeAjax({...})` `fakeAjax({registrations: {...}})`
 * Support for inlining the fake data (e.g. json, xml or html) or loading the fake data from external files using `loadTestData`, works nicely with [jasmine-jquery](https://github.com/velesin/jasmine-jquery) as long as you use `loadTestData` and not equivalent fixture loading functions in jasmine-jquery
+* All ajax calls are faked by default but you can delegate any ajax call to real ajax by using `.useRealAjaxFor(options)`, e.g. `useRealAjaxFor({url: '/example', type: 'post'})`
 * Real jQuery Ajax can be used anytime through `realAjax` global convenience function
 * Descriptive and helpful warning/error messages logged to console
 * Works nicely with Firefox and Chrome
