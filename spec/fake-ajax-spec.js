@@ -566,8 +566,8 @@ describe('logging', function() {
   describe('without fake ajax options', function() {
     it('logs warning', function() {
       $.get('/example')
-      expect(testLog.latestWarning()).toEqual("There are no fake ajax options defined, spec: " +
-        "'logs warning', real ajax url: '/example'.")
+      expect(testLog.latestWarning()).toEqual("No fake ajax registrations found. Perhaps you forgot to register some using .fakeAjax? (spec: " +
+        "'logs warning', actual ajax url that was called by application: '/example')")
     })
   })
 
@@ -575,8 +575,8 @@ describe('logging', function() {
     it('logs warning with real url and spec description', function() {
       fakeAjax({registrations:[{url: '/this'}]})
       $.get('/that', function(){})
-      expect(testLog.latestWarning()).toEqual("No matching fake ajax options was found, spec: " +
-        "'logs warning with real url and spec description', real ajax url: '/that'.")
+      expect(testLog.latestWarning()).toEqual("No matching fake ajax registration found. (spec: " +
+        "'logs warning with real url and spec description', actual ajax url that was called by application: '/that')")
     })
   })
 
