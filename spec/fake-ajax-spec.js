@@ -51,11 +51,16 @@ describe('rules for resolving which fake ajax options match the real options', f
     expect(result.success.data).toEqual(6)
   })
 
-  it('compares url', function() {
+  it('compares url with given regex', function() {
     fakeAjax({registrations:[
-      {url: '/a', successData: 1},
-      {url: '/b', successData: 2}
+      {url: '/a.*\?foo=bar', successData: 1},
+      {url: '^/b$', successData: 2},
+      {url: 'c', successData: 3}
     ]})
+    $.get('/a/b/c/d?foo=lulz', successHandler)
+    expect(result.success.data).toEqual(3)
+    $.get('/test/a/wut?foo=bar&x=y', successHandler)
+    expect(result.success.data).toEqual(1)
     $.get('/b', successHandler)
     expect(result.success.data).toEqual(2)
   })
@@ -245,8 +250,8 @@ describe('clicking question', function() {
         '<div class="answerContainer"></div>')
       sut.setupAnswersBehavior()
       fakeAjax({registrations:[
-        {url: '/answers/get?questionId=question2', successData: loadTestData('.answer2', 'fake-ajax-fixture.html')},
-        {url: '/authors/get?answerId=answer2', errorMessage: 'author data not available'},
+        {url: '/answers/get\\?questionId=question2', successData: loadTestData('.answer2', 'fake-ajax-fixture.html')},
+        {url: '/authors/get\\?answerId=answer2', errorMessage: 'author data not available'},
         {url: '/onError', successData: 'Please try again later.'}
       ]})
       $('.questions li').last().click()
