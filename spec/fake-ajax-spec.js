@@ -2,7 +2,7 @@ describe('simple example', function() {
   it('just works', function() {
     var message = 'Hello '
     registerFakeAjax({url: '/simple', successData: 'World!'})
-    $.get('/simple', function(data) {
+    $.get('/simple?foo=bar', function(data) {
       message += data
     })
     expect(message).toEqual('Hello World!')
@@ -250,8 +250,8 @@ describe('clicking question', function() {
         '<div class="answerContainer"></div>')
       sut.setupAnswersBehavior()
       fakeAjax({registrations:[
-        {url: '/answers/get\\?questionId=question2', successData: loadTestData('.answer2', 'fake-ajax-fixture.html')},
-        {url: '/authors/get\\?answerId=answer2', errorMessage: 'author data not available'},
+        {url: '/answers.*question2', successData: loadTestData('.answer2', 'fake-ajax-fixture.html')},
+        {url: '/authors.*answer2', errorMessage: 'author data not available'},
         {url: '/onError', successData: 'Please try again later.'}
       ]})
       $('.questions li').last().click()

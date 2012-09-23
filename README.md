@@ -36,7 +36,7 @@ See `spec/fake-ajax-spec.js` for executable specification and many examples.
       it('just works', function() {
         var message = 'Hello '
         registerFakeAjax({url: '/simple', successData: 'World!'})
-        $.get('/simple', function(data) {
+        $.get('/simple?foo=bar', function(data) {
           message += data
         })
         expect(message).toEqual('Hello World!')
@@ -127,8 +127,8 @@ Again, there are many more examples in `spec/fake-ajax-spec.js`.
 Often, multiple Ajax calls are executed under the hood when e.g. clicking a link. `fakeAjax` lets you define which calls will succeed and which will fail:
 
     fakeAjax({registrations:[
-      {url: '/answers/get?questionId=question2', successData: loadTestData('.answer2', 'fake-ajax-fixture.html')},
-      {url: '/authors/get?answerId=answer2', errorMessage: 'author data not available'},
+      {url: '/answers.*question2', successData: loadTestData('.answer2', 'fake-ajax-fixture.html')},
+      {url: '/authors.*answer2', errorMessage: 'author data not available'},
       {url: '/onError', successData: 'Please try again later.'}
     ]})
 
