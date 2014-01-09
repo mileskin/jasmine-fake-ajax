@@ -1,3 +1,7 @@
+# Abandonware alert!
+
+Please note that I'm not maintaining this project anymore. I mostly use Mocha for testing and $.mockjax for faking ajax.
+
 # Fake Ajax to be used with the [Jasmine BDD framework](http://pivotal.github.com/jasmine/) and jQuery Ajax
 
 ## Summary
